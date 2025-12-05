@@ -4,4 +4,4 @@ List of all scanned Tables in this schema:
 
 | Schema Name | Table Name | Table Location |
 |---|---|---|
-| [BEREIT_F](./BEREIT_F) | [F_SC_ABV_ARAL](./BEREIT_F/F_SC_ABV_ARAL) | SAS |
+| BEREIT_F | [F_SC_ABV_ARAL](./F_SC_ABV_ARAL) | SAS |

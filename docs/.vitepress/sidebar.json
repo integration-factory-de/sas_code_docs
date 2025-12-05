@@ -159,7 +159,12 @@
         "text": "AGG",
         "collapsed": true,
         "link": "/Tables/AGG/",
-        "items": []
+        "items": [
+          {
+            "text": "H_REAGG_FLOWDIRECTIONMAP_MAHPTABT_2_TREGLBER",
+            "link": "/Tables/AGG/H_REAGG_FLOWDIRECTIONMAP_MAHPTABT_2_TREGLBER"
+          }
+        ]
       },
       {
         "text": "BEREIT_D",
@@ -216,6 +221,14 @@
         "link": "/Tables/DWH/",
         "items": [
           {
+            "text": "F_ELVS_BCH_VGS001",
+            "link": "/Tables/DWH/F_ELVS_BCH_VGS001"
+          },
+          {
+            "text": "F_ELVS_BO",
+            "link": "/Tables/DWH/F_ELVS_BO"
+          },
+          {
             "text": "F_LHM_SV_TOUR_NVE_STAMM",
             "link": "/Tables/DWH/F_LHM_SV_TOUR_NVE_STAMM"
           },
@@ -226,6 +239,14 @@
           {
             "text": "F_SC_ZAM_PROTOKOLL",
             "link": "/Tables/DWH/F_SC_ZAM_PROTOKOLL"
+          },
+          {
+            "text": "F_STUECKLISTE",
+            "link": "/Tables/DWH/F_STUECKLISTE"
+          },
+          {
+            "text": "F_WVS_FEHLGRUND",
+            "link": "/Tables/DWH/F_WVS_FEHLGRUND"
           },
           {
             "text": "LU_D_KAL_TAG",
@@ -244,6 +265,18 @@
             "link": "/Tables/DWH/LU_D_NAN_ART"
           },
           {
+            "text": "SD_ELVS_FEHL_ART_BER_MA_KZ",
+            "link": "/Tables/DWH/SD_ELVS_FEHL_ART_BER_MA_KZ"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND",
+            "link": "/Tables/DWH/SD_WVS_FEHLGRUND"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND_GRP",
+            "link": "/Tables/DWH/SD_WVS_FEHLGRUND_GRP"
+          },
+          {
             "text": "SD_WVS_FEHLGRUND_KLASSE",
             "link": "/Tables/DWH/SD_WVS_FEHLGRUND_KLASSE"
           },
@@ -258,6 +291,14 @@
         "collapsed": true,
         "link": "/Tables/EDW/",
         "items": [
+          {
+            "text": "F_ELISA_KDAUFTRAG",
+            "link": "/Tables/EDW/F_ELISA_KDAUFTRAG"
+          },
+          {
+            "text": "F_ELISA_KDAUFTRAGAEND",
+            "link": "/Tables/EDW/F_ELISA_KDAUFTRAGAEND"
+          },
           {
             "text": "F_SC_ABV_ARAL",
             "link": "/Tables/EDW/F_SC_ABV_ARAL"
@@ -349,6 +390,10 @@
           {
             "text": "SD_WVS_FEHLGRUND",
             "link": "/Tables/LEGACY_DWH/SD_WVS_FEHLGRUND"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND_GRP",
+            "link": "/Tables/LEGACY_DWH/SD_WVS_FEHLGRUND_GRP"
           }
         ]
       },
@@ -443,6 +488,10 @@
           {
             "text": "SD_WVS_FEHLGRUND_GRP",
             "link": "/Tables/LEGACY_STAG/SD_WVS_FEHLGRUND_GRP"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND_KLASSE",
+            "link": "/Tables/LEGACY_STAG/SD_WVS_FEHLGRUND_KLASSE"
           },
           {
             "text": "SD_WVS_FEHLGRUND_UGRP",
