@@ -15,7 +15,7 @@ export default withMermaid(defineConfig({
       light: '/logo.png',
       dark: '/logo.png'
     },
-    siteTitle: false,
+    siteTitle: "SAS Code Assessment Documentation",
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },

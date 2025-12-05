@@ -156,6 +156,12 @@
     "link": "/Tables/index",
     "items": [
       {
+        "text": "AGG",
+        "collapsed": true,
+        "link": "/Tables/AGG/",
+        "items": []
+      },
+      {
         "text": "BEREIT_D",
         "collapsed": true,
         "link": "/Tables/BEREIT_D/",
