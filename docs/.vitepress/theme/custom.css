@@ -1,0 +1,295 @@
+:root {
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #89209b, #74def5);
+  --vp-c-brand-1: #3f83e9;
+  --vp-c-brand-2: #3375db;
+  --vp-sidebar-width: 420px;
+  --vp-layout-max-width: 100%;
+  --vp-code-max-height: 400px;
+}
+
+.language-sql {
+  max-height: 485px;
+  overflow-y: auto;
+}
+
+
+.content-container {
+  max-width: 1000px !important;
+}
+
+.dark .VPContent.is-home {
+  background-image: radial-gradient(at center bottom, rgba(129, 30, 152, 0.38) 0%, rgba(15, 18, 43, 0) 57%)
+  , radial-gradient(at right center, rgba(116, 222, 245, 0.38) 0%, rgba(11, 22, 24, 0) 77%);
+}
+
+.mk-right-image, .mk-right-image-small {
+  border-radius: 8px;
+}
+
+@media (min-width: 650px) {
+  .mk-right-image, .mk-right-image-small {
+    float: right;
+    margin-left: 10px;
+    margin-top: 7px;
+    max-width: 400px;
+  }
+
+  .mk-right-image-small {
+    max-width: 280px !important;
+  }
+}
+
+.mk-image-small {
+    max-width: 280px !important;
+  }
+
+.backdrop {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px)
+}
+
+.VPFeature {
+  box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.2);
+}
+
+.VPDoc a {
+  text-decoration: none !important;
+}
+
+.VPDoc img {
+  border-radius: 8px;
+}
+
+.VPDoc h2 > a {
+  text-decoration: none !important;
+  font-weight: 600 !important;
+}
+
+.mk-label {
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+  padding-bottom: 2px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 25px;
+  text-align: left;
+  text-shadow: none;
+  text-size-adjust: 100%;
+  text-transform: none;
+  text-wrap: nowrap;
+  white-space-collapse: preserve;
+  word-break: normal;
+  word-spacing: 0px;
+  color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.18) 1px 1px 3px 1px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+/****************************************************************************************** SQL-Doku*/ 
+.cucs
+        {border-radius: 4px;padding: 3px 6px;background-color: var(--vp-code-bg);
+        transition: color 0.25s, background-color 0.5s;font-size: var(--vp-code-font-size);
+        color: var(--vp-code-color);
+        }
+
+.mkw_lv0
+        {margin-left:0em;
+        margin-top:0em;
+        margin-bottom:0em;
+        background-color:grey;
+        }
+
+.mkw_lv1
+        {/*margin-left:1em;*/
+        margin-top:0em;
+        margin-bottom:0em;
+        padding-left:0.8em;
+        border-left-style: solid;
+        border-width: 0.1em;
+        border-color: lightgrey;
+        }
+.mkw_lv1_tafel
+        {/*margin-left:1em;*/
+        padding-left:0.5em;
+        }
+
+.mkw_lv2
+        {margin-top:0em;
+        margin-bottom:0em;
+        padding-left:0.8em;
+        border-left-style: solid;
+        border-width: 0.1em;
+        border-color: lightgrey;
+        }
+.mkw_lv2_tafel
+        {/*margin-left:1em;*/
+        padding-left:0.5em;
+        }
+.mkw_lv3
+        {margin-top:0em;
+        margin-bottom:0em;
+        padding-left:0.8em;
+        border-left-style: solid;
+        border-width: 0.1em;
+        border-color: lightgrey;
+        }
+.mkw_lv3_tafel
+        {/*margin-left:1em;*/
+        padding-left:0.5em;
+        }
+.mkw_lv0_init_line,  .mkw_lv1_init_line, .mkw_lv4_init_line
+        {
+        margin-left:1.618em;
+        text-indent:-1.618em;
+        }
+.mkw_lv0_line, .mkw_lv1_line, .mkw_lv4_line
+        {
+        margin-left:1.618em;
+        }
+.mkw_lv1_line, .mkw_lv4_line
+        {
+        padding-left:0.4em;
+        }
+.detailed_summaries_title
+        {
+            border-style: solid;
+            border-width: 0.1em;
+            border-color: lightgrey;
+            font-style:italic;
+            background-color: var(--vp-code-bg);
+        }
+.detailed_summaries_title_line
+        {
+            padding-left:0em;
+        }
+
+.sql_mkw_usage ul
+    {
+     margin-top:0.5em;
+     padding-left:1.618em;
+     line-height: 1em;
+    }
+
+.sql_mkw_usage
+    {font-size:0.7em;
+     font-style:italic;
+     color:grey;
+     margin:1.618em;
+     padding:0em;
+     line-height: 0.618em;
+    }
+
+.mk-big-image {
+  border-radius: 8px;
+}
+
+.mk-big-image {
+    float: none;
+	margin-left: auto;
+	margin-right: auto;
+    max-width: 95%;
+	border: 2px solid #EEEFFF;
+  }
+
+@media (min-width: 650px) {
+  .mk-big-image {
+    float: none;
+	margin-left: auto;
+	margin-right: auto;
+    max-width: 90%;
+	border: 2px solid #EEEFFF;
+  }
+}
+
+.mk-icon-image {
+  display: inline-block;
+  width: 1.3em;
+  margin: -0.2em 0.2em -0.3em 0.2em;
+  border-radius: 1px !important;
+}
+
+.mk-inline-image {
+  display: inline-block;
+  height: 1.3em;
+  margin: -0.2em 0.2em -0.3em 0.2em;
+  border-radius: 1px !important;
+}
+
+.mk_image_12em{max-width:12em;}
+.mk_image_14em{max-width:14em;}
+.mk_image_16em{max-width:16em;}
+.mk_image_18em{max-width:18em;}
+.mk_image_22em{max-width:22em;}
+.mk_image_26em{max-width:26em;}
+
+.mk-left-image_var {
+  border-radius: 8px;
+}
+
+.mk-left-image_var{
+	float: left;
+    margin-left: 0.3em;
+    margin-top: 0.3em;
+	margin-right: 0.7em;
+  } 
+
+@media (max-width: 650px) {
+  .mk-left-image_var{
+    float: none;
+    margin-left: auto;
+    margin-top: 0.0em;
+	margin-right: auto;
+    max-width: 95% !important;
+  } 
+}
+
+.mk-right-image_var{
+	float: right;
+    margin-left: 0.3em;
+    margin-top: 0.3em;
+	margin-right: 0.7em;}
+
+@media (max-width: 650px) {
+  .mk-right-image_var{
+    float: none;
+    margin-left: auto;
+    margin-top: 0.0em;
+	margin-right: auto;
+    max-width: 95% !important;;
+  }
+}
+
+.mk-image-right-border, .mk-image-left-border {border: 2px solid #EEEFFF;}
+
+.mkw_manual_list {
+        margin-left:1.618em;
+        }
+		
+.mk_text_green_bkgound{background-color: #B5F1BA;padding-left: 0.2em; padding-right: 0.2em;}
+
+.mk_text_red_bkgound{background-color:#F6B09F;padding-left: 0.2em; padding-right: 0.2em;}
+
+.mk_text_orange_bkgound{background-color:#F5CB5D;padding-left: 0.2em; padding-right: 0.2em;}
+
+.mk_text_lila_bkgound{background-color:#800080;padding-left: 0.2em; padding-right: 0.2em;color:white}
+
+.mk_text_blue_bkgound{background-color:#2586c2;padding-left: 0.2em; padding-right: 0.2em;color:white}
+
+.validgreen_text{color:#026714;}
+
+.red_text{color:#f77f90;}
+
+.infa_orange_text{color:#ff6a12;}
+
+.mermaid {
+  width: 2000px !important;
+  left: -400px;
+  position: relative;
+  overflow-x: auto; /* allow scroll if needed */
+}

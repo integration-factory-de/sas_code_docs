@@ -1,0 +1,686 @@
+[
+  {
+    "text": "Applications",
+    "collapsed": false,
+    "link": "/Applications/index",
+    "items": [
+      {
+        "text": "BDWH_ELABGEBA",
+        "collapsed": true,
+        "link": "/Applications/BDWH_ELABGEBA/",
+        "items": [
+          {
+            "text": "snow_elabgeba_100_geba_artlag_zusammenf.sas",
+            "link": "/Applications/BDWH_ELABGEBA/snow_elabgeba_100_geba_artlag_zusammenf.sas"
+          },
+          {
+            "text": "snow_elabgeba_200_nach_dma.sas",
+            "link": "/Applications/BDWH_ELABGEBA/snow_elabgeba_200_nach_dma.sas"
+          }
+        ]
+      },
+      {
+        "text": "BDWH_SCCWVS",
+        "collapsed": true,
+        "link": "/Applications/BDWH_SCCWVS/",
+        "items": [
+          {
+            "text": "sccwvs_005_wvs_ablade_tag.sas",
+            "link": "/Applications/BDWH_SCCWVS/sccwvs_005_wvs_ablade_tag.sas"
+          },
+          {
+            "text": "sccwvs_020_wvs_berechnen_elab.sas",
+            "link": "/Applications/BDWH_SCCWVS/sccwvs_020_wvs_berechnen_elab.sas"
+          },
+          {
+            "text": "sccwvs_030_wvs_erst_lief_aus_stkl20.sas",
+            "link": "/Applications/BDWH_SCCWVS/sccwvs_030_wvs_erst_lief_aus_stkl20.sas"
+          },
+          {
+            "text": "sccwvs_250_wvs_relevant.sas",
+            "link": "/Applications/BDWH_SCCWVS/sccwvs_250_wvs_relevant.sas"
+          },
+          {
+            "text": "sccwvs_300_fakt_n_stag.sas",
+            "link": "/Applications/BDWH_SCCWVS/sccwvs_300_fakt_n_stag.sas"
+          },
+          {
+            "text": "sccwvs_400_fakt_n_dwh.sas",
+            "link": "/Applications/BDWH_SCCWVS/sccwvs_400_fakt_n_dwh.sas"
+          },
+          {
+            "text": "sccwvs_500_wvs_aggregate.sas",
+            "link": "/Applications/BDWH_SCCWVS/sccwvs_500_wvs_aggregate.sas"
+          },
+          {
+            "text": "sccwvs_600_cleandb.sas",
+            "link": "/Applications/BDWH_SCCWVS/sccwvs_600_cleandb.sas"
+          }
+        ]
+      },
+      {
+        "text": "DWABVARAL",
+        "collapsed": true,
+        "link": "/Applications/DWABVARAL/",
+        "items": [
+          {
+            "text": "abv_aral_bereit.sas",
+            "link": "/Applications/DWABVARAL/abv_aral_bereit.sas"
+          },
+          {
+            "text": "abv_aral_bew_ekp.sas",
+            "link": "/Applications/DWABVARAL/abv_aral_bew_ekp.sas"
+          },
+          {
+            "text": "abv_aral_meta.sas",
+            "link": "/Applications/DWABVARAL/abv_aral_meta.sas"
+          },
+          {
+            "text": "abv_aral_move_beweg.sas",
+            "link": "/Applications/DWABVARAL/abv_aral_move_beweg.sas"
+          },
+          {
+            "text": "abv_aral_unzip.sas",
+            "link": "/Applications/DWABVARAL/abv_aral_unzip.sas"
+          },
+          {
+            "text": "dw010990.sas",
+            "link": "/Applications/DWABVARAL/dw010990.sas"
+          },
+          {
+            "text": "dw010992.sas",
+            "link": "/Applications/DWABVARAL/dw010992.sas"
+          },
+          {
+            "text": "snow_abv_aral_einlesen.sas",
+            "link": "/Applications/DWABVARAL/snow_abv_aral_einlesen.sas"
+          },
+          {
+            "text": "snow_abv_aral_insert_sca_delta.sas",
+            "link": "/Applications/DWABVARAL/snow_abv_aral_insert_sca_delta.sas"
+          },
+          {
+            "text": "snow_abv_aral_nach_dwh.sas",
+            "link": "/Applications/DWABVARAL/snow_abv_aral_nach_dwh.sas"
+          },
+          {
+            "text": "snow_abv_aral_verdichtungen.sas",
+            "link": "/Applications/DWABVARAL/snow_abv_aral_verdichtungen.sas"
+          }
+        ]
+      },
+      {
+        "text": "DWELISAAUFTRAB",
+        "collapsed": true,
+        "link": "/Applications/DWELISAAUFTRAB/",
+        "items": [
+          {
+            "text": "auftragsabschlussmeldung_einlesen.sas",
+            "link": "/Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_einlesen.sas"
+          },
+          {
+            "text": "auftragsabschlussmeldung_ekp.sas",
+            "link": "/Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_ekp.sas"
+          },
+          {
+            "text": "auftragsabschlussmeldung_metadaten.sas",
+            "link": "/Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_metadaten.sas"
+          },
+          {
+            "text": "auftragsabschlussmeldung_transfrm.sas",
+            "link": "/Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_transfrm.sas"
+          },
+          {
+            "text": "auftragsabschlussmeldung_vkp.sas",
+            "link": "/Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_vkp.sas"
+          },
+          {
+            "text": "snow_auftragsabschlussmeldung_fa_mapping.sas",
+            "link": "/Applications/DWELISAAUFTRAB/snow_auftragsabschlussmeldung_fa_mapping.sas"
+          },
+          {
+            "text": "snow_auftragsabschlussmeldung_fa_n_edw.sas",
+            "link": "/Applications/DWELISAAUFTRAB/snow_auftragsabschlussmeldung_fa_n_edw.sas"
+          },
+          {
+            "text": "snow_auftragsabschlussmeldung_laden.sas",
+            "link": "/Applications/DWELISAAUFTRAB/snow_auftragsabschlussmeldung_laden.sas"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Tables",
+    "collapsed": false,
+    "link": "/Tables/index",
+    "items": [
+      {
+        "text": "AGG",
+        "collapsed": true,
+        "link": "/Tables/AGG/",
+        "items": [
+          {
+            "text": "H_REAGG_FLOWDIRECTIONMAP_MAHPTABT_2_TREGLBER",
+            "link": "/Tables/AGG/H_REAGG_FLOWDIRECTIONMAP_MAHPTABT_2_TREGLBER"
+          }
+        ]
+      },
+      {
+        "text": "BEREIT_D",
+        "collapsed": true,
+        "link": "/Tables/BEREIT_D/",
+        "items": [
+          {
+            "text": "D_MA",
+            "link": "/Tables/BEREIT_D/D_MA"
+          }
+        ]
+      },
+      {
+        "text": "BEREIT_F",
+        "collapsed": true,
+        "link": "/Tables/BEREIT_F/",
+        "items": [
+          {
+            "text": "F_SC_ABV_ARAL",
+            "link": "/Tables/BEREIT_F/F_SC_ABV_ARAL"
+          }
+        ]
+      },
+      {
+        "text": "DMA",
+        "collapsed": true,
+        "link": "/Tables/DMA/",
+        "items": [
+          {
+            "text": "H_ARAL_EAN_NAN",
+            "link": "/Tables/DMA/H_ARAL_EAN_NAN"
+          },
+          {
+            "text": "LU_D_ARAL_EAN",
+            "link": "/Tables/DMA/LU_D_ARAL_EAN"
+          },
+          {
+            "text": "LU_D_ARAL_MNG_EINH",
+            "link": "/Tables/DMA/LU_D_ARAL_MNG_EINH"
+          },
+          {
+            "text": "S_SC_ABV_ARAL_1210",
+            "link": "/Tables/DMA/S_SC_ABV_ARAL_1210"
+          },
+          {
+            "text": "S_SC_ABV_ARAL_BASIS",
+            "link": "/Tables/DMA/S_SC_ABV_ARAL_BASIS"
+          }
+        ]
+      },
+      {
+        "text": "DWH",
+        "collapsed": true,
+        "link": "/Tables/DWH/",
+        "items": [
+          {
+            "text": "F_ELVS_BCH_VGS001",
+            "link": "/Tables/DWH/F_ELVS_BCH_VGS001"
+          },
+          {
+            "text": "F_ELVS_BO",
+            "link": "/Tables/DWH/F_ELVS_BO"
+          },
+          {
+            "text": "F_LHM_SV_TOUR_NVE_STAMM",
+            "link": "/Tables/DWH/F_LHM_SV_TOUR_NVE_STAMM"
+          },
+          {
+            "text": "F_LHM_SV_TOUR_NVE_TRACK",
+            "link": "/Tables/DWH/F_LHM_SV_TOUR_NVE_TRACK"
+          },
+          {
+            "text": "F_SC_ZAM_PROTOKOLL",
+            "link": "/Tables/DWH/F_SC_ZAM_PROTOKOLL"
+          },
+          {
+            "text": "F_STUECKLISTE",
+            "link": "/Tables/DWH/F_STUECKLISTE"
+          },
+          {
+            "text": "F_WVS_FEHLGRUND",
+            "link": "/Tables/DWH/F_WVS_FEHLGRUND"
+          },
+          {
+            "text": "LU_D_KAL_TAG",
+            "link": "/Tables/DWH/LU_D_KAL_TAG"
+          },
+          {
+            "text": "LU_D_MA_HPT_ABT",
+            "link": "/Tables/DWH/LU_D_MA_HPT_ABT"
+          },
+          {
+            "text": "LU_D_MA_LAG",
+            "link": "/Tables/DWH/LU_D_MA_LAG"
+          },
+          {
+            "text": "LU_D_NAN_ART",
+            "link": "/Tables/DWH/LU_D_NAN_ART"
+          },
+          {
+            "text": "SD_ELVS_FEHL_ART_BER_MA_KZ",
+            "link": "/Tables/DWH/SD_ELVS_FEHL_ART_BER_MA_KZ"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND",
+            "link": "/Tables/DWH/SD_WVS_FEHLGRUND"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND_GRP",
+            "link": "/Tables/DWH/SD_WVS_FEHLGRUND_GRP"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND_KLASSE",
+            "link": "/Tables/DWH/SD_WVS_FEHLGRUND_KLASSE"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND_UGRP",
+            "link": "/Tables/DWH/SD_WVS_FEHLGRUND_UGRP"
+          }
+        ]
+      },
+      {
+        "text": "EDW",
+        "collapsed": true,
+        "link": "/Tables/EDW/",
+        "items": [
+          {
+            "text": "F_ELISA_KDAUFTRAG",
+            "link": "/Tables/EDW/F_ELISA_KDAUFTRAG"
+          },
+          {
+            "text": "F_ELISA_KDAUFTRAGAEND",
+            "link": "/Tables/EDW/F_ELISA_KDAUFTRAGAEND"
+          },
+          {
+            "text": "F_SC_ABV_ARAL",
+            "link": "/Tables/EDW/F_SC_ABV_ARAL"
+          }
+        ]
+      },
+      {
+        "text": "ERROR",
+        "collapsed": true,
+        "link": "/Tables/ERROR/",
+        "items": [
+          {
+            "text": "F_ELISA_AUFTRAGSABSCHLUSS_ERR",
+            "link": "/Tables/ERROR/F_ELISA_AUFTRAGSABSCHLUSS_ERR"
+          }
+        ]
+      },
+      {
+        "text": "LEGACY_AGG",
+        "collapsed": true,
+        "link": "/Tables/LEGACY_AGG/",
+        "items": [
+          {
+            "text": "F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER",
+            "link": "/Tables/LEGACY_AGG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
+          },
+          {
+            "text": "F_WVS_FEHLGRUND_KAL_WO_TREG_LBER",
+            "link": "/Tables/LEGACY_AGG/F_WVS_FEHLGRUND_KAL_WO_TREG_LBER"
+          },
+          {
+            "text": "F_WVS_FEHLGRUND_KAL_WO_TREG_LBER_WG4_MARKE",
+            "link": "/Tables/LEGACY_AGG/F_WVS_FEHLGRUND_KAL_WO_TREG_LBER_WG4_MARKE"
+          }
+        ]
+      },
+      {
+        "text": "LEGACY_DMA",
+        "collapsed": true,
+        "link": "/Tables/LEGACY_DMA/",
+        "items": [
+          {
+            "text": "F_ELAB_GEBA",
+            "link": "/Tables/LEGACY_DMA/F_ELAB_GEBA"
+          },
+          {
+            "text": "F_ELAB_GEBA_HIST",
+            "link": "/Tables/LEGACY_DMA/F_ELAB_GEBA_HIST"
+          },
+          {
+            "text": "F_ELISA_FEHL_ART",
+            "link": "/Tables/LEGACY_DMA/F_ELISA_FEHL_ART"
+          }
+        ]
+      },
+      {
+        "text": "LEGACY_DWH",
+        "collapsed": true,
+        "link": "/Tables/LEGACY_DWH/",
+        "items": [
+          {
+            "text": "AGG",
+            "link": "/Tables/LEGACY_DWH/AGG"
+          },
+          {
+            "text": "DWH",
+            "link": "/Tables/LEGACY_DWH/DWH"
+          },
+          {
+            "text": "F_ELVS_BCH_VGS001",
+            "link": "/Tables/LEGACY_DWH/F_ELVS_BCH_VGS001"
+          },
+          {
+            "text": "F_ELVS_BO",
+            "link": "/Tables/LEGACY_DWH/F_ELVS_BO"
+          },
+          {
+            "text": "F_ELVS_FEHL_ART",
+            "link": "/Tables/LEGACY_DWH/F_ELVS_FEHL_ART"
+          },
+          {
+            "text": "F_ELVS_GEBA",
+            "link": "/Tables/LEGACY_DWH/F_ELVS_GEBA"
+          },
+          {
+            "text": "F_STUECKLISTE",
+            "link": "/Tables/LEGACY_DWH/F_STUECKLISTE"
+          },
+          {
+            "text": "SD_ELVS_FEHL_ART_BER_MA_KZ",
+            "link": "/Tables/LEGACY_DWH/SD_ELVS_FEHL_ART_BER_MA_KZ"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND",
+            "link": "/Tables/LEGACY_DWH/SD_WVS_FEHLGRUND"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND_GRP",
+            "link": "/Tables/LEGACY_DWH/SD_WVS_FEHLGRUND_GRP"
+          }
+        ]
+      },
+      {
+        "text": "LEGACY_EDW",
+        "collapsed": true,
+        "link": "/Tables/LEGACY_EDW/",
+        "items": [
+          {
+            "text": "D_ELISA_ARTLAGLOGISTFAKTOREN",
+            "link": "/Tables/LEGACY_EDW/D_ELISA_ARTLAGLOGISTFAKTOREN"
+          },
+          {
+            "text": "D_ELISA_ARTLAGSTOCKKEEPINGUNIT",
+            "link": "/Tables/LEGACY_EDW/D_ELISA_ARTLAGSTOCKKEEPINGUNIT"
+          },
+          {
+            "text": "F_ELISA_AUFTRAGSABSCHLUSS",
+            "link": "/Tables/LEGACY_EDW/F_ELISA_AUFTRAGSABSCHLUSS"
+          }
+        ]
+      },
+      {
+        "text": "LEGACY_STAG",
+        "collapsed": true,
+        "link": "/Tables/LEGACY_STAG/",
+        "items": [
+          {
+            "text": "F_ELAB_GEBA_HIST",
+            "link": "/Tables/LEGACY_STAG/F_ELAB_GEBA_HIST"
+          },
+          {
+            "text": "F_ELAB_GEBA_WORK",
+            "link": "/Tables/LEGACY_STAG/F_ELAB_GEBA_WORK"
+          },
+          {
+            "text": "F_ELISA_AUFTRAGSABSCHLUSS",
+            "link": "/Tables/LEGACY_STAG/F_ELISA_AUFTRAGSABSCHLUSS"
+          },
+          {
+            "text": "F_ELISA_AUFTRAGSABSCHLUSS_ERSATZART",
+            "link": "/Tables/LEGACY_STAG/F_ELISA_AUFTRAGSABSCHLUSS_ERSATZART"
+          },
+          {
+            "text": "F_ELISA_FEHL_ART",
+            "link": "/Tables/LEGACY_STAG/F_ELISA_FEHL_ART"
+          },
+          {
+            "text": "F_ELVS_GEBA_HIST",
+            "link": "/Tables/LEGACY_STAG/F_ELVS_GEBA_HIST"
+          },
+          {
+            "text": "F_WVS_ABLADE_DATUM",
+            "link": "/Tables/LEGACY_STAG/F_WVS_ABLADE_DATUM"
+          },
+          {
+            "text": "F_WVS_FEHLGRUND",
+            "link": "/Tables/LEGACY_STAG/F_WVS_FEHLGRUND"
+          },
+          {
+            "text": "F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER",
+            "link": "/Tables/LEGACY_STAG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
+          },
+          {
+            "text": "F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER_REAGG_DELTA",
+            "link": "/Tables/LEGACY_STAG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER_REAGG_DELTA"
+          },
+          {
+            "text": "F_WVS_FEHLGRUND_KAL_WO_TREG_LBER",
+            "link": "/Tables/LEGACY_STAG/F_WVS_FEHLGRUND_KAL_WO_TREG_LBER"
+          },
+          {
+            "text": "F_WVS_FEHLGRUND_KAL_WO_TREG_LBER_WG4_MARKE",
+            "link": "/Tables/LEGACY_STAG/F_WVS_FEHLGRUND_KAL_WO_TREG_LBER_WG4_MARKE"
+          },
+          {
+            "text": "F_WVS_FEHLGRUND_TAGE",
+            "link": "/Tables/LEGACY_STAG/F_WVS_FEHLGRUND_TAGE"
+          },
+          {
+            "text": "SD_ELVS_FEHL_ART_BER_MA_KZ",
+            "link": "/Tables/LEGACY_STAG/SD_ELVS_FEHL_ART_BER_MA_KZ"
+          },
+          {
+            "text": "SD_ELVS_FEHL_ART_GRUND_AUSWKZ",
+            "link": "/Tables/LEGACY_STAG/SD_ELVS_FEHL_ART_GRUND_AUSWKZ"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND",
+            "link": "/Tables/LEGACY_STAG/SD_WVS_FEHLGRUND"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND_GRP",
+            "link": "/Tables/LEGACY_STAG/SD_WVS_FEHLGRUND_GRP"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND_KLASSE",
+            "link": "/Tables/LEGACY_STAG/SD_WVS_FEHLGRUND_KLASSE"
+          },
+          {
+            "text": "SD_WVS_FEHLGRUND_UGRP",
+            "link": "/Tables/LEGACY_STAG/SD_WVS_FEHLGRUND_UGRP"
+          },
+          {
+            "text": "TMP_F_LHM_SV_TOUR_NVE_TRACK",
+            "link": "/Tables/LEGACY_STAG/TMP_F_LHM_SV_TOUR_NVE_TRACK"
+          },
+          {
+            "text": "TMP_F_LHM_SV_TOUR_NVE_TRACK_2",
+            "link": "/Tables/LEGACY_STAG/TMP_F_LHM_SV_TOUR_NVE_TRACK_2"
+          }
+        ]
+      },
+      {
+        "text": "MANUELL",
+        "collapsed": true,
+        "link": "/Tables/MANUELL/",
+        "items": [
+          {
+            "text": "LU_D_ARAL_MNG_EINH",
+            "link": "/Tables/MANUELL/LU_D_ARAL_MNG_EINH"
+          }
+        ]
+      },
+      {
+        "text": "METADATN",
+        "collapsed": true,
+        "link": "/Tables/METADATN/",
+        "items": [
+          {
+            "text": "PROT_ARAL_ABVERKAUF",
+            "link": "/Tables/METADATN/PROT_ARAL_ABVERKAUF"
+          },
+          {
+            "text": "PROT_F_ELISA_AUFTRAGSABSCHLUSS",
+            "link": "/Tables/METADATN/PROT_F_ELISA_AUFTRAGSABSCHLUSS"
+          }
+        ]
+      },
+      {
+        "text": "PRODUCT_SCC_PROD",
+        "collapsed": true,
+        "link": "/Tables/PRODUCT_SCC_PROD/",
+        "items": []
+      },
+      {
+        "text": "STAG",
+        "collapsed": true,
+        "link": "/Tables/STAG/",
+        "items": [
+          {
+            "text": "F_SC_ABV_ARAL",
+            "link": "/Tables/STAG/F_SC_ABV_ARAL"
+          },
+          {
+            "text": "F_SC_ABV_KONZERN_DELTA",
+            "link": "/Tables/STAG/F_SC_ABV_KONZERN_DELTA"
+          },
+          {
+            "text": "LU_D_ARAL_MNG_EINH",
+            "link": "/Tables/STAG/LU_D_ARAL_MNG_EINH"
+          }
+        ]
+      },
+      {
+        "text": "WKBONARA",
+        "collapsed": true,
+        "link": "/Tables/WKBONARA/",
+        "items": [
+          {
+            "text": "F_SC_ABV_ARAL",
+            "link": "/Tables/WKBONARA/F_SC_ABV_ARAL"
+          }
+        ]
+      },
+      {
+        "text": "WK_AUFAB",
+        "collapsed": true,
+        "link": "/Tables/WK_AUFAB/",
+        "items": [
+          {
+            "text": "AUFAB_01",
+            "link": "/Tables/WK_AUFAB/AUFAB_01"
+          },
+          {
+            "text": "AUFAB_02",
+            "link": "/Tables/WK_AUFAB/AUFAB_02"
+          },
+          {
+            "text": "AUFAB_02A",
+            "link": "/Tables/WK_AUFAB/AUFAB_02A"
+          },
+          {
+            "text": "AUFAB_ERR",
+            "link": "/Tables/WK_AUFAB/AUFAB_ERR"
+          },
+          {
+            "text": "F_ELISA_AUFTRAGSABSCHLUSS",
+            "link": "/Tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS"
+          },
+          {
+            "text": "F_ELISA_AUFTRAGSABSCHLUSS0",
+            "link": "/Tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0"
+          },
+          {
+            "text": "F_ELISA_AUFTRAGSABSCHLUSS0EKP",
+            "link": "/Tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0EKP"
+          },
+          {
+            "text": "PROT_F_ELISA_AUFTRAGSABSCHLUSS",
+            "link": "/Tables/WK_AUFAB/PROT_F_ELISA_AUFTRAGSABSCHLUSS"
+          },
+          {
+            "text": "XML_DIRLIST",
+            "link": "/Tables/WK_AUFAB/XML_DIRLIST"
+          }
+        ]
+      },
+      {
+        "text": "WRKABVAR",
+        "collapsed": true,
+        "link": "/Tables/WRKABVAR/",
+        "items": [
+          {
+            "text": "ARAL_ABVERKAUF",
+            "link": "/Tables/WRKABVAR/ARAL_ABVERKAUF"
+          },
+          {
+            "text": "ARAL_ABVERKAUF_01",
+            "link": "/Tables/WRKABVAR/ARAL_ABVERKAUF_01"
+          },
+          {
+            "text": "ARAL_ABVERKAUF_02",
+            "link": "/Tables/WRKABVAR/ARAL_ABVERKAUF_02"
+          },
+          {
+            "text": "ARAL_ABVERKAUF_02_EKP",
+            "link": "/Tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
+          },
+          {
+            "text": "ARAL_ABVERKAUF_FEHLER",
+            "link": "/Tables/WRKABVAR/ARAL_ABVERKAUF_FEHLER"
+          },
+          {
+            "text": "ARAL_ABVERKAUF_KONTROLL_SATZ",
+            "link": "/Tables/WRKABVAR/ARAL_ABVERKAUF_KONTROLL_SATZ"
+          },
+          {
+            "text": "ARAL_TEST_FOLGEDATEI",
+            "link": "/Tables/WRKABVAR/ARAL_TEST_FOLGEDATEI"
+          },
+          {
+            "text": "ARAL_VERGLEICH",
+            "link": "/Tables/WRKABVAR/ARAL_VERGLEICH"
+          },
+          {
+            "text": "ARAL_VERGLEICH_01",
+            "link": "/Tables/WRKABVAR/ARAL_VERGLEICH_01"
+          },
+          {
+            "text": "PHYSDAT",
+            "link": "/Tables/WRKABVAR/PHYSDAT"
+          },
+          {
+            "text": "PHYSDAT_ROH",
+            "link": "/Tables/WRKABVAR/PHYSDAT_ROH"
+          },
+          {
+            "text": "PROT_ARAL_ABVERKAUF",
+            "link": "/Tables/WRKABVAR/PROT_ARAL_ABVERKAUF"
+          },
+          {
+            "text": "test",
+            "link": "/Tables/WRKABVAR/test"
+          }
+        ]
+      },
+      {
+        "text": "WRKWVS",
+        "collapsed": true,
+        "link": "/Tables/WRKWVS/",
+        "items": []
+      }
+    ]
+  }
+]
