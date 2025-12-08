@@ -2,7 +2,13 @@
 
 ## Table Description
 
-_No description available_
+**DWABVARAL** is a data warehouse application that processes **Aral fuel station sales data** (Abverkaufsdaten) within a comprehensive ETL pipeline.
+
+The application handles the complete lifecycle of Aral sales transactions, from raw data ingestion to final data warehouse storage. It processes sales files containing transaction details like EAN codes, quantities, prices, VAT information, and station identifiers. The system includes **data validation**, **EK pricing evaluation** (purchase price valuation), **article mapping** via NAN/EAN lookups, and **market assignment** through GLN matching.
+
+Key processing steps include file movement from staging areas, data decompression, transaction parsing with control record validation, **purchase price calculations** using the bewertg_wgpek macro, and preparation for downstream systems. The application maintains comprehensive **audit trails** and **error handling** with specific contact points for data quality issues.
+
+This table represents the **EK-evaluated sales data** after purchase price valuation has been applied, containing enriched transaction records ready for final staging and data warehouse loading into Snowflake EDW tables.
 
 ## Lineage / Impact
 
@@ -11,14 +17,14 @@ _No description available_
 
 flowchart LR
 
+  WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.ARAL_ABVERKAUF_01["WRKABVAR<br/>ARAL_ABVERKAUF_01"]
+  WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"]
   WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.ARAL_ABVERKAUF_02["WRKABVAR<br/>ARAL_ABVERKAUF_02"]
+  WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WKBONARA.F_SC_ABV_ARAL["WKBONARA<br/>F_SC_ABV_ARAL"]
+  WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.ARAL_ABVERKAUF_FEHLER["WRKABVAR<br/>ARAL_ABVERKAUF_FEHLER"]
+  WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.PROT_ARAL_ABVERKAUF["WRKABVAR<br/>PROT_ARAL_ABVERKAUF"]
   WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.ARAL_ABVERKAUF["WRKABVAR<br/>ARAL_ABVERKAUF"]
   WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> BEREIT_F.F_SC_ABV_ARAL["BEREIT_F<br/>F_SC_ABV_ARAL"]
-  WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.PROT_ARAL_ABVERKAUF["WRKABVAR<br/>PROT_ARAL_ABVERKAUF"]
-  WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.ARAL_ABVERKAUF_01["WRKABVAR<br/>ARAL_ABVERKAUF_01"]
-  WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WKBONARA.F_SC_ABV_ARAL["WKBONARA<br/>F_SC_ABV_ARAL"]
-  WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"]
-  WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.ARAL_ABVERKAUF_FEHLER["WRKABVAR<br/>ARAL_ABVERKAUF_FEHLER"]
   click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
   click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
   click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
@@ -26,15 +32,29 @@ flowchart LR
   click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
   click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
   click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
+  click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
+  click WRKABVAR.ARAL_ABVERKAUF_01 "../../tables/WRKABVAR/ARAL_ABVERKAUF_01"
   click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
   click WRKABVAR.ARAL_ABVERKAUF_02 "../../tables/WRKABVAR/ARAL_ABVERKAUF_02"
+  click WKBONARA.F_SC_ABV_ARAL "../../tables/WKBONARA/F_SC_ABV_ARAL"
+  click WRKABVAR.ARAL_ABVERKAUF_FEHLER "../../tables/WRKABVAR/ARAL_ABVERKAUF_FEHLER"
+  click WRKABVAR.PROT_ARAL_ABVERKAUF "../../tables/WRKABVAR/PROT_ARAL_ABVERKAUF"
   click WRKABVAR.ARAL_ABVERKAUF "../../tables/WRKABVAR/ARAL_ABVERKAUF"
   click BEREIT_F.F_SC_ABV_ARAL "../../tables/BEREIT_F/F_SC_ABV_ARAL"
-  click WRKABVAR.PROT_ARAL_ABVERKAUF "../../tables/WRKABVAR/PROT_ARAL_ABVERKAUF"
-  click WRKABVAR.ARAL_ABVERKAUF_01 "../../tables/WRKABVAR/ARAL_ABVERKAUF_01"
-  click WKBONARA.F_SC_ABV_ARAL "../../tables/WKBONARA/F_SC_ABV_ARAL"
-  click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
-  click WRKABVAR.ARAL_ABVERKAUF_FEHLER "../../tables/WRKABVAR/ARAL_ABVERKAUF_FEHLER"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>CREATE TABLE</Util> inside [DWABVARAL/abv_aral_bew_ekp.sas](../../Applications/DWABVARAL/abv_aral_bew_ekp.sas):
+```sql:line-numbers
+CREATE TABLE WRKABVAR.ARAL_ABVERKAUF_02_EKP AS
+SELECT A.*, COALESCE(B.MA_ID,1000000000) AS MA_ID
+FROM WRKABVAR.ARAL_ABVERKAUF A
+LEFT JOIN bereit_d.D_MA B
+ON A.ARAL_PART_NR = B.ILN_WARE
+AND A.KAL_TAG_ID between B.MA_GUELT_VON and B.MA_GUELT_BIS
 ```
 
 ## References
@@ -43,9 +63,9 @@ The table ARAL_ABVERKAUF_02_EKP is used in the following SAS programs:
 
 | Application | SAS Program |
 |---|---|
-| [DWABVARAL](../../Applications/DWABVARAL) | [abv_aral_bew_ekp.sas](../../Applications/DWABVARAL/abv_aral_bew_ekp.sas) |
-| [DWABVARAL](../../Applications/DWABVARAL) | [abv_aral_bereit.sas](../../Applications/DWABVARAL/abv_aral_bereit.sas) |
-| [DWABVARAL](../../Applications/DWABVARAL) | [snow_abv_aral_einlesen.sas](../../Applications/DWABVARAL/snow_abv_aral_einlesen.sas) |
+| [DWABVARAL](../../Applications/DWABVARAL/) | [abv_aral_bew_ekp.sas](../../Applications/DWABVARAL/abv_aral_bew_ekp.sas) |
+| [DWABVARAL](../../Applications/DWABVARAL/) | [abv_aral_bereit.sas](../../Applications/DWABVARAL/abv_aral_bereit.sas) |
+| [DWABVARAL](../../Applications/DWABVARAL/) | [snow_abv_aral_einlesen.sas](../../Applications/DWABVARAL/snow_abv_aral_einlesen.sas) |
 ## Table Schema
 
 | Field Name | Datatype | Precision | Scale | Is Nullable | Constraint | Description |

@@ -10,6 +10,7 @@ export default withMermaid(defineConfig({
   description: "Documentation",
   base: '/',
   lastUpdated: true,
+  ignoreDeadLinks: true,
   themeConfig: {
     logo: {
       light: '/logo.png',

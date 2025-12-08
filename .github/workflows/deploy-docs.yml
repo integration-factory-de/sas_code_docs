@@ -1,4 +1,4 @@
-name: Build and Deploy MKW Docs to Public Repo
+name: Build and Deploy SAS Code Assessment Docs to Public Repo
 
 on:
   push:

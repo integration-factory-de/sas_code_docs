@@ -1,17 +1,33 @@
 # DWABVARAL (Application)
 
-:::danger Complexity Score
- **XL**
+:::warning Complexity Score
+ **L**
 :::
 
 ## Application Description
 
-_No description available_
+**DWABVARAL** is a comprehensive **SAS-based data processing application** designed to handle **Aral fuel station sales data** within a data warehouse environment.
+
+This application manages the complete **end-to-end processing pipeline** for Aral sales transactions, from raw data ingestion to final data warehouse storage. The system processes daily sales files containing transaction details including **product sales, quantities, prices, and customer payment information** from Aral fuel stations.
+
+Key processing stages include:
+- **File movement and validation** from staging directories
+- **Data decompression and extraction** from compressed source files
+- **Sales transaction parsing** with comprehensive data quality checks
+- **Product and location mapping** using EAN codes and station identifiers
+- **Purchase price evaluation** and financial calculations
+- **Data transformation** for warehouse compatibility
+- **Staging and production database loading**
+
+The application incorporates **robust error handling** with detailed logging and validation checks to ensure data integrity. It includes **sequential file processing** with control record verification and **automatic rollback capabilities** for failed operations.
+
+**DWABVARAL** serves as a critical component in the retail analytics infrastructure, enabling **business intelligence reporting** and **performance analysis** for Aral fuel station operations across the network.
 
 ## List of SAS programs
 
 | SAS Program | Description |
 |---|---|
+| [dw010990.sas](./dw010990.sas.md) | tbd |
 | [snow_abv_aral_einlesen.sas](./snow_abv_aral_einlesen.sas.md) | tbd |
 | [abv_aral_meta.sas](./abv_aral_meta.sas.md) | tbd |
 | [abv_aral_bereit.sas](./abv_aral_bereit.sas.md) | tbd |
@@ -22,7 +38,6 @@ _No description available_
 | [abv_aral_bew_ekp.sas](./abv_aral_bew_ekp.sas.md) | tbd |
 | [abv_aral_move_beweg.sas](./abv_aral_move_beweg.sas.md) | tbd |
 | [snow_abv_aral_nach_dwh.sas](./snow_abv_aral_nach_dwh.sas.md) | tbd |
-| [dw010990.sas](./dw010990.sas.md) | tbd |
 
 
 ## Table Lineage
@@ -32,6 +47,7 @@ _No description available_
 
 flowchart LR
 
+  EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"] --> DMA.H_ARAL_EAN_NAN["DMA<br/>H_ARAL_EAN_NAN"]
   WRKABVAR.ARAL_ABVERKAUF_KONTROLL_SATZ["WRKABVAR<br/>ARAL_ABVERKAUF_KONTROLL_SATZ"] --> WRKABVAR.ARAL_VERGLEICH["WRKABVAR<br/>ARAL_VERGLEICH"]
   WRKABVAR.ARAL_VERGLEICH["WRKABVAR<br/>ARAL_VERGLEICH"] --> WRKABVAR.ARAL_VERGLEICH_01["WRKABVAR<br/>ARAL_VERGLEICH_01"]
   BEREIT_D.D_MA["BEREIT_D<br/>D_MA"] --> BEREIT_D.D_MA["BEREIT_D<br/>D_MA"]
@@ -59,7 +75,7 @@ flowchart LR
   WRKABVAR.ARAL_ABVERKAUF_KONTROLL_SATZ["WRKABVAR<br/>ARAL_ABVERKAUF_KONTROLL_SATZ"] --> WRKABVAR.ARAL_VERGLEICH_01["WRKABVAR<br/>ARAL_VERGLEICH_01"]
   WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> BEREIT_F.F_SC_ABV_ARAL["BEREIT_F<br/>F_SC_ABV_ARAL"]
   BEREIT_F.F_SC_ABV_ARAL["BEREIT_F<br/>F_SC_ABV_ARAL"] --> STAG.F_SC_ABV_ARAL["STAG<br/>F_SC_ABV_ARAL"]
-  EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"] --> DMA.H_ARAL_EAN_NAN["DMA<br/>H_ARAL_EAN_NAN"]
+  click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
   click WRKABVAR.ARAL_ABVERKAUF_KONTROLL_SATZ "../../tables/WRKABVAR/ARAL_ABVERKAUF_KONTROLL_SATZ"
   click WRKABVAR.ARAL_VERGLEICH "../../tables/WRKABVAR/ARAL_VERGLEICH"
   click BEREIT_D.D_MA "../../tables/BEREIT_D/D_MA"
@@ -87,7 +103,8 @@ flowchart LR
   click WRKABVAR.ARAL_ABVERKAUF_KONTROLL_SATZ "../../tables/WRKABVAR/ARAL_ABVERKAUF_KONTROLL_SATZ"
   click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
   click BEREIT_F.F_SC_ABV_ARAL "../../tables/BEREIT_F/F_SC_ABV_ARAL"
-  click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
+  click MANUELL.LU_D_ARAL_MNG_EINH "../../tables/MANUELL/LU_D_ARAL_MNG_EINH"
+  click DMA.H_ARAL_EAN_NAN "../../tables/DMA/H_ARAL_EAN_NAN"
   click WRKABVAR.ARAL_VERGLEICH "../../tables/WRKABVAR/ARAL_VERGLEICH"
   click WRKABVAR.ARAL_VERGLEICH_01 "../../tables/WRKABVAR/ARAL_VERGLEICH_01"
   click BEREIT_D.D_MA "../../tables/BEREIT_D/D_MA"
@@ -117,6 +134,4 @@ flowchart LR
   click WRKABVAR.ARAL_VERGLEICH_01 "../../tables/WRKABVAR/ARAL_VERGLEICH_01"
   click BEREIT_F.F_SC_ABV_ARAL "../../tables/BEREIT_F/F_SC_ABV_ARAL"
   click STAG.F_SC_ABV_ARAL "../../tables/STAG/F_SC_ABV_ARAL"
-  click MANUELL.LU_D_ARAL_MNG_EINH "../../tables/MANUELL/LU_D_ARAL_MNG_EINH"
-  click DMA.H_ARAL_EAN_NAN "../../tables/DMA/H_ARAL_EAN_NAN"
 ```

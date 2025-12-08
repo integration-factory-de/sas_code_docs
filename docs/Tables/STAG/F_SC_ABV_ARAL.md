@@ -2,7 +2,15 @@
 
 ## Table Description
 
-_No description available_
+The **DWABVARAL** application processes **Aral sales data** (Abverkaufsdaten) through a comprehensive ETL pipeline. This staging table contains detailed point-of-sale transaction data from Aral gas stations.
+
+The application handles the complete data flow from raw file processing to data warehouse integration. It **moves and unzips** raw data files from DFUE directories, **validates file sequences** and record counts, and **reads semicolon-delimited sales records** with comprehensive error handling.
+
+Key processing includes **EAN-to-NAN article mapping**, **market ID resolution** via ILN codes, **purchase price evaluation** through specialized macros, and **VAT classification**. The system performs **data quality checks** comparing control records against actual transaction counts.
+
+Processed data flows through multiple stages: **STAG** (staging), **EDW** (enterprise data warehouse), and various **aggregated views** for reporting. The application supports **restart capability** and includes comprehensive **error handling** with specific contact information for data issues.
+
+This table serves as the primary staging area before data moves to production tables, supporting downstream **sales analysis**, **inventory management**, and **financial reporting** across the Aral retail network.
 
 ## Lineage / Impact
 
@@ -11,15 +19,24 @@ _No description available_
 
 flowchart LR
 
-  STAG.F_SC_ABV_ARAL["STAG<br/>F_SC_ABV_ARAL"] --> EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"]
-  STAG.F_SC_ABV_ARAL["STAG<br/>F_SC_ABV_ARAL"] --> STAG.F_SC_ABV_KONZERN_DELTA["STAG<br/>F_SC_ABV_KONZERN_DELTA"]
   BEREIT_F.F_SC_ABV_ARAL["BEREIT_F<br/>F_SC_ABV_ARAL"] --> STAG.F_SC_ABV_ARAL["STAG<br/>F_SC_ABV_ARAL"]
-  click STAG.F_SC_ABV_ARAL "../../tables/STAG/F_SC_ABV_ARAL"
-  click STAG.F_SC_ABV_ARAL "../../tables/STAG/F_SC_ABV_ARAL"
+  STAG.F_SC_ABV_ARAL["STAG<br/>F_SC_ABV_ARAL"] --> STAG.F_SC_ABV_KONZERN_DELTA["STAG<br/>F_SC_ABV_KONZERN_DELTA"]
+  STAG.F_SC_ABV_ARAL["STAG<br/>F_SC_ABV_ARAL"] --> EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"]
   click BEREIT_F.F_SC_ABV_ARAL "../../tables/BEREIT_F/F_SC_ABV_ARAL"
-  click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
-  click STAG.F_SC_ABV_KONZERN_DELTA "../../tables/STAG/F_SC_ABV_KONZERN_DELTA"
   click STAG.F_SC_ABV_ARAL "../../tables/STAG/F_SC_ABV_ARAL"
+  click STAG.F_SC_ABV_ARAL "../../tables/STAG/F_SC_ABV_ARAL"
+  click STAG.F_SC_ABV_ARAL "../../tables/STAG/F_SC_ABV_ARAL"
+  click STAG.F_SC_ABV_KONZERN_DELTA "../../tables/STAG/F_SC_ABV_KONZERN_DELTA"
+  click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>INSERT</Util> inside [DWABVARAL/dw010990.sas](../../Applications/DWABVARAL/dw010990.sas):
+```sql:line-numbers
+INSERT INTO STAG.F_SC_ABV_ARAL SELECT * FROM BEREIT_F.F_SC_ABV_ARAL
 ```
 
 ## References
@@ -28,9 +45,9 @@ The table F_SC_ABV_ARAL is used in the following SAS programs:
 
 | Application | SAS Program |
 |---|---|
+| [DWABVARAL](../../Applications/DWABVARAL) | [snow_abv_aral_insert_sca_delta.sas](../../Applications/DWABVARAL/snow_abv_aral_insert_sca_delta.sas) |
 | [DWABVARAL](../../Applications/DWABVARAL) | [snow_abv_aral_nach_dwh.sas](../../Applications/DWABVARAL/snow_abv_aral_nach_dwh.sas) |
 | [DWABVARAL](../../Applications/DWABVARAL) | [dw010990.sas](../../Applications/DWABVARAL/dw010990.sas) |
-| [DWABVARAL](../../Applications/DWABVARAL) | [snow_abv_aral_insert_sca_delta.sas](../../Applications/DWABVARAL/snow_abv_aral_insert_sca_delta.sas) |
 ## Table Schema
 
 | Field Name | Datatype | Precision | Scale | Is Nullable | Constraint | Description |

@@ -2,7 +2,20 @@
 
 ## Table Description
 
-_No description available_
+**DWABVARAL** is a data warehouse application that processes **Aral fuel station sales data** (Abverkaufsdaten) through a comprehensive ETL pipeline.
+
+This table represents the **first processing stage** of Aral sales transactions after initial data ingestion. The application handles the complete workflow from raw data file movement and decompression to final data warehouse loading.
+
+The table contains **enriched sales transaction data** with added market identifiers (MA_ID) by joining with master data tables. It serves as an intermediate dataset before further processing steps that add article identifiers (NAN_ART_ID) and purchase price evaluations.
+
+**Key features:**
+- Processes daily sales files from Aral fuel stations
+- Validates data integrity through control records
+- Maps station GLN numbers to internal market IDs
+- Handles various product categories and payment methods
+- Supports restart capability for failed jobs
+
+The application integrates with **Snowflake data warehouse** and creates multiple aggregated views for reporting and analysis purposes. Data flows through staging tables before final loading into production EDW tables.
 
 ## Lineage / Impact
 
@@ -14,6 +27,23 @@ flowchart LR
   WRKABVAR.ARAL_ABVERKAUF_02_EKP["WRKABVAR<br/>ARAL_ABVERKAUF_02_EKP"] --> WRKABVAR.ARAL_ABVERKAUF_01["WRKABVAR<br/>ARAL_ABVERKAUF_01"]
   click WRKABVAR.ARAL_ABVERKAUF_02_EKP "../../tables/WRKABVAR/ARAL_ABVERKAUF_02_EKP"
   click WRKABVAR.ARAL_ABVERKAUF_01 "../../tables/WRKABVAR/ARAL_ABVERKAUF_01"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>CREATE TABLE</Util> inside [DWABVARAL/snow_abv_aral_einlesen.sas](../../Applications/DWABVARAL/snow_abv_aral_einlesen.sas):
+```sql:line-numbers
+PROC SQL;
+CREATE TABLE WRKABVAR.ARAL_ABVERKAUF_01 AS
+SELECT A.*, COALESCE(B.MA_ID,1000000000) AS MA_ID
+FROM WRKABVAR.ARAL_ABVERKAUF A
+LEFT JOIN bereit_d.D_MA B
+ON A.ARAL_PART_NR = B.ILN_WARE
+AND A.KAL_TAG_ID between B.MA_GUELT_VON and B.MA_GUELT_BIS
+;
+QUIT;
 ```
 
 ## References

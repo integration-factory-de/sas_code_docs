@@ -2,7 +2,15 @@
 
 ## Table Description
 
-_No description available_
+The **DWELISAAUFTRAB** application processes **order completion messages** from the ELISA system, handling XML data from pL-Store warehouse management. This table serves as the **initial staging table** for transformed order completion data before price enrichment.
+
+The application follows a **sequential ETL pipeline** with 13 jobs processing XML messages containing commissioning completion data. When commissioning is completed with the last NVE (shipping unit) for an order, the completion message is generated and transferred to ELISA, containing all commissioned quantities for all order positions.
+
+This specific table contains **transformed order data** after XML parsing and master data lookups, including warehouse numbers, order numbers, article identifiers, and commissioned quantities. The data structure separates header and position data with a **2-level position hierarchy**: one order can contain 1-n WaNVEs (outbound shipping units), and one WaNVE can contain 1-n articles.
+
+Key transformations include mapping warehouse numbers to MA_LAG_ID, article numbers to NAN_ART_ID, supplier numbers to LIEF_ID, and market identifiers to MA_ID using format catalogs. The table handles **replacement article scenarios** where original articles are substituted during commissioning, maintaining referential integrity through REFERENZ_NAN fields.
+
+The application runs **four times daily** and includes comprehensive error handling, duplicate detection, and metadata tracking for data lineage and quality monitoring.
 
 ## Lineage / Impact
 
@@ -11,15 +19,78 @@ _No description available_
 
 flowchart LR
 
-  WK_AUFAB.AUFAB_01["WK_AUFAB<br/>AUFAB_01"] --> WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0"]
   ERROR.F_ELISA_AUFTRAGSABSCHLUSS_ERR["ERROR<br/>F_ELISA_AUFTRAGSABSCHLUSS_ERR"] --> WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0"]
+  WK_AUFAB.AUFAB_01["WK_AUFAB<br/>AUFAB_01"] --> WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0"]
   WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0"] --> WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0EKP"]
-  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
   click ERROR.F_ELISA_AUFTRAGSABSCHLUSS_ERR "../../tables/ERROR/F_ELISA_AUFTRAGSABSCHLUSS_ERR"
+  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
   click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0 "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0"
   click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0 "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0"
   click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0 "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0"
   click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0EKP"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>CREATE TABLE</Util> inside [DWELISAAUFTRAB/auftragsabschlussmeldung_transfrm.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_transfrm.sas):
+```sql:line-numbers
+data wk_aufab.f_elisa_auftragsabschluss0
+(keep= MA_LAG_ID LAG_ID NAN_ART_ID AKT_KZ LIEF_ID MA_ID KAL_TAG_ID BUCHUNGSDATUM
+MHDATUM AuftragsabschlussmeldungV2_fullC lagerNummer belegNummer vorgangsSchluessel
+wwIdent_bilanzstelle wwIdent_vertriebsbereich wwIdent_filialnummer
+marktNummer_bereich marktNummer_region marktNummer_zaehlNummer kommissionierlaufNummer kst8AuftragNummer
+plStoreAuftragsNummer lieferart buchungsDatum_day buchungsDatum_month buchungsDatum_year belegDatum_day
+belegDatum_month belegDatum_year waNve_erweiterungsZiffer waNve_fortlaufendeNummer
+waNve_globalCompanyPrefix waNve_pruefZiffer lhmKuerzel lhmArtikelnummer lhm_nan_art_id
+nan waEinheit weNve_erweiterungsZiffer weNve_fortlaufendeNummer
+weNve_globalCompanyPrefix weNve_pruefZiffer auftragsMengeInStueck istKommMengeInStueck sollKommMengeInStueck mengeInGramm kvGrund
+mhd_day mhd_month mhd_year ursprungsland charge lieferantenNr zusatzPosition schnittGewichtInGramm
+einkaufspreis
+dateiname lfd_nr_rohdat
+gebindeKz fortlaufendeNummer gangNummer platz
+faktnr
+teilKommId referenzen betriebe mhd_type
+land_typ grai fehlerschluessel
+rueckmeldungId
+chargeid
+storno_kennz
+referenz_nan
+referenz_waeinheit
+referenz_nan_art_id
+fmgrund_storno
+pickNan
+pickEinheit
+)
+wk_aufab.aufab_err
+(keep= MA_LAG_ID LAG_ID NAN_ART_ID AKT_KZ LIEF_ID MA_ID KAL_TAG_ID BUCHUNGSDATUM
+MHDATUM AuftragsabschlussmeldungV2_fullC lagerNummer belegNummer vorgangsSchluessel
+wwIdent_bilanzstelle wwIdent_vertriebsbereich wwIdent_filialnummer
+marktNummer_bereich marktNummer_region marktNummer_zaehlNummer kommissionierlaufNummer kst8AuftragNummer
+plStoreAuftragsNummer lieferart buchungsDatum_day buchungsDatum_month buchungsDatum_year belegDatum_day
+belegDatum_month belegDatum_year waNve_erweiterungsZiffer waNve_fortlaufendeNummer
+waNve_globalCompanyPrefix waNve_pruefZiffer lhmKuerzel lhmArtikelnummer lhm_nan_art_id
+nan waEinheit weNve_erweiterungsZiffer weNve_fortlaufendeNummer
+weNve_globalCompanyPrefix weNve_pruefZiffer auftragsMengeInStueck istKommMengeInStueck sollKommMengeInStueck mengeInGramm kvGrund
+mhd_day mhd_month mhd_year ursprungsland charge lieferantenNr zusatzPosition schnittGewichtInGramm
+einkaufspreis
+dateiname lfd_nr_rohdat mengeInGrammC schnittGewichtInGrammC einkaufspreisC
+gebindeKz fortlaufendeNummer gangNummer platz
+faktnr
+teilKommId referenzen betriebe mhd_type
+land_typ grai fehlerschluessel
+rueckmeldungId
+chargeid
+storno_kennz
+referenz_nan
+referenz_waeinheit
+referenz_nan_art_id
+fmgrund_storno
+pickNan
+pickEinheit
+)
+set wk_aufab.aufab_02
 ```
 
 ## References
@@ -28,8 +99,8 @@ The table F_ELISA_AUFTRAGSABSCHLUSS0 is used in the following SAS programs:
 
 | Application | SAS Program |
 |---|---|
-| [DWELISAAUFTRAB](../../Applications/DWELISAAUFTRAB) | [auftragsabschlussmeldung_ekp.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_ekp.sas) |
 | [DWELISAAUFTRAB](../../Applications/DWELISAAUFTRAB) | [auftragsabschlussmeldung_transfrm.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_transfrm.sas) |
+| [DWELISAAUFTRAB](../../Applications/DWELISAAUFTRAB) | [auftragsabschlussmeldung_ekp.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_ekp.sas) |
 ## Table Schema
 
 | Field Name | Datatype | Precision | Scale | Is Nullable | Constraint | Description |

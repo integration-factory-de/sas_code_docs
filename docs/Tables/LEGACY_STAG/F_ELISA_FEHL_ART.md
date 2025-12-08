@@ -2,7 +2,13 @@
 
 ## Table Description
 
-_No description available_
+**DWELISAAUFTRAB** is a comprehensive data processing application that handles order completion messages from the ELISA system. The application processes XML-based order completion notifications (AuftragsabschlussmeldungV2) from pL-Store to ELISA, containing detailed information about commissioned quantities for all order positions.
+
+The table **F_ELISA_FEHL_ART** serves as a staging table that aggregates and transforms order completion data into a structure compatible with the legacy F_ELVS_FEHL_ART format. This table contains processed order completion information including commissioned quantities, delivery details, and article-specific data.
+
+The application follows a **sequential job processing chain** (DWDW6449 through DW013912) that moves raw XML files through various transformation stages: file movement, XML parsing, data transformation, price enrichment (both purchase and sales prices), database loading, and cleanup operations. The system handles multiple order completion scenarios including partial deliveries, cancellations, and replacement articles.
+
+Key features include **automated error handling** with email notifications, **data archiving** for audit purposes, and **comprehensive metadata tracking**. The application processes order completion messages containing commissioned quantities, delivery information, and handles complex scenarios like article replacements and quantity adjustments. The staging table supports downstream supply chain cockpit reporting and analysis requirements.
 
 ## Lineage / Impact
 
@@ -11,16 +17,21 @@ _No description available_
 
 flowchart LR
 
-  LEGACY_STAG.F_ELISA_FEHL_ART["LEGACY_STAG<br/>F_ELISA_FEHL_ART"] --> LEGACY_STAG.F_ELISA_FEHL_ART["LEGACY_STAG<br/>F_ELISA_FEHL_ART"]
   LEGACY_STAG.F_ELISA_FEHL_ART["LEGACY_STAG<br/>F_ELISA_FEHL_ART"] --> LEGACY_EDW.F_ELISA_AUFTRAGSABSCHLUSS["LEGACY_EDW<br/>F_ELISA_AUFTRAGSABSCHLUSS"]
   LEGACY_STAG.F_ELISA_FEHL_ART["LEGACY_STAG<br/>F_ELISA_FEHL_ART"] --> LEGACY_DMA.F_ELISA_FEHL_ART["LEGACY_DMA<br/>F_ELISA_FEHL_ART"]
-  click LEGACY_STAG.F_ELISA_FEHL_ART "../../tables/LEGACY_STAG/F_ELISA_FEHL_ART"
+  LEGACY_STAG.F_ELISA_FEHL_ART["LEGACY_STAG<br/>F_ELISA_FEHL_ART"] --> LEGACY_STAG.F_ELISA_FEHL_ART["LEGACY_STAG<br/>F_ELISA_FEHL_ART"]
   click LEGACY_STAG.F_ELISA_FEHL_ART "../../tables/LEGACY_STAG/F_ELISA_FEHL_ART"
   click LEGACY_STAG.F_ELISA_FEHL_ART "../../tables/LEGACY_STAG/F_ELISA_FEHL_ART"
   click LEGACY_STAG.F_ELISA_FEHL_ART "../../tables/LEGACY_STAG/F_ELISA_FEHL_ART"
   click LEGACY_EDW.F_ELISA_AUFTRAGSABSCHLUSS "../../tables/LEGACY_EDW/F_ELISA_AUFTRAGSABSCHLUSS"
   click LEGACY_DMA.F_ELISA_FEHL_ART "../../tables/LEGACY_DMA/F_ELISA_FEHL_ART"
+  click LEGACY_STAG.F_ELISA_FEHL_ART "../../tables/LEGACY_STAG/F_ELISA_FEHL_ART"
 ```
+
+## Statements
+
+The following statements create/modify this table:
+
 
 ## References
 

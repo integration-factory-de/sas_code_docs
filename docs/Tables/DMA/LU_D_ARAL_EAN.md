@@ -2,7 +2,15 @@
 
 ## Table Description
 
-_No description available_
+**DWABVARAL** is a data warehouse application that processes **Aral sales data** (Abverkaufsdaten) from gas stations. The application handles the complete ETL pipeline for Aral point-of-sale transactions.
+
+The table **LU_D_ARAL_EAN** serves as a **lookup dimension table** that stores EAN (European Article Number) codes used in Aral sales transactions. It contains standardized EAN identifiers with their corresponding raw EAN values from the source system.
+
+This table is populated during the data processing workflow where raw Aral sales files are read, validated, and transformed. The EAN codes are converted to standardized 14-digit identifiers by adding a prefix (10000000000000) to ensure consistent formatting across the data warehouse.
+
+The table supports **sales data analysis** and **article identification** by providing a clean mapping between the original EAN codes from Aral systems and the standardized EAN identifiers used in downstream reporting and analytics. It is refreshed daily as part of the automated ETL process that moves data from staging (STAG) to the data mart area (DMA).
+
+This lookup table is essential for **product identification** and **sales reporting** across the Aral gas station network, enabling consistent article tracking and analysis.
 
 ## Lineage / Impact
 
@@ -11,12 +19,28 @@ _No description available_
 
 flowchart LR
 
-  EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"] --> DMA.LU_D_ARAL_EAN["DMA<br/>LU_D_ARAL_EAN"]
   STAG.LU_D_ARAL_MNG_EINH["STAG<br/>LU_D_ARAL_MNG_EINH"] --> DMA.LU_D_ARAL_EAN["DMA<br/>LU_D_ARAL_EAN"]
-  click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
+  EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"] --> DMA.LU_D_ARAL_EAN["DMA<br/>LU_D_ARAL_EAN"]
   click STAG.LU_D_ARAL_MNG_EINH "../../tables/STAG/LU_D_ARAL_MNG_EINH"
+  click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
   click DMA.LU_D_ARAL_EAN "../../tables/DMA/LU_D_ARAL_EAN"
   click DMA.LU_D_ARAL_EAN "../../tables/DMA/LU_D_ARAL_EAN"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>INSERT</Util> inside [DWABVARAL/snow_abv_aral_verdichtungen.sas](../../Applications/DWABVARAL/snow_abv_aral_verdichtungen.sas):
+```sql:line-numbers
+DELETE FROM DMA.LU_D_ARAL_EAN
+INSERT INTO DMA.LU_D_ARAL_EAN
+SELECT
+CAST((10000000000000 + CASE WHEN trim(ARAL_EAN)='' THEN 0 ELSE trim(ARAL_EAN) END) AS BIGINT) AS ARAL_EAN_ID,
+trim(ARAL_EAN)
+FROM EDW.F_SC_ABV_ARAL
+GROUP BY
+trim(ARAL_EAN)
 ```
 
 ## References

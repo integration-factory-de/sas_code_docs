@@ -2,7 +2,13 @@
 
 ## Table Description
 
-_No description available_
+The **DWELISAAUFTRAB** application processes XML order completion messages from the ELISA system. This table serves as an intermediate staging table containing transformed order completion data from pL-Store warehouse management system.
+
+The table stores **order completion notifications** that are generated when the last NVE (shipping unit) of an order is commissioned. These messages contain all commissioned quantities for all order positions and are transmitted to ELISA for further processing.
+
+Key data includes order headers, position details, and a **2-level position structure**: orders can contain 1-n WaNVEs (outbound shipping units), and each WaNVE can contain 1-n articles. The table handles both regular order completions and **cancellation positions** (storno), with appropriate flags and processing logic.
+
+This table is part of a **sequential job chain** (DWDW6449 through DW013912) that processes XML files, applies transformations including price enrichment (purchase and sales prices), and loads data into staging and EDW tables. The application runs **four times daily** and includes comprehensive error handling and metadata tracking for data quality assurance.
 
 ## Lineage / Impact
 
@@ -11,15 +17,28 @@ _No description available_
 
 flowchart LR
 
-  ERROR.F_ELISA_AUFTRAGSABSCHLUSS_ERR["ERROR<br/>F_ELISA_AUFTRAGSABSCHLUSS_ERR"] --> WK_AUFAB.AUFAB_02A["WK_AUFAB<br/>AUFAB_02A"]
   WK_AUFAB.AUFAB_02A["WK_AUFAB<br/>AUFAB_02A"] --> ERROR.F_ELISA_AUFTRAGSABSCHLUSS_ERR["ERROR<br/>F_ELISA_AUFTRAGSABSCHLUSS_ERR"]
+  ERROR.F_ELISA_AUFTRAGSABSCHLUSS_ERR["ERROR<br/>F_ELISA_AUFTRAGSABSCHLUSS_ERR"] --> WK_AUFAB.AUFAB_02A["WK_AUFAB<br/>AUFAB_02A"]
   WK_AUFAB.AUFAB_01["WK_AUFAB<br/>AUFAB_01"] --> WK_AUFAB.AUFAB_02A["WK_AUFAB<br/>AUFAB_02A"]
-  click ERROR.F_ELISA_AUFTRAGSABSCHLUSS_ERR "../../tables/ERROR/F_ELISA_AUFTRAGSABSCHLUSS_ERR"
   click WK_AUFAB.AUFAB_02A "../../tables/WK_AUFAB/AUFAB_02A"
+  click ERROR.F_ELISA_AUFTRAGSABSCHLUSS_ERR "../../tables/ERROR/F_ELISA_AUFTRAGSABSCHLUSS_ERR"
   click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
-  click WK_AUFAB.AUFAB_02A "../../tables/WK_AUFAB/AUFAB_02A"
   click ERROR.F_ELISA_AUFTRAGSABSCHLUSS_ERR "../../tables/ERROR/F_ELISA_AUFTRAGSABSCHLUSS_ERR"
   click WK_AUFAB.AUFAB_02A "../../tables/WK_AUFAB/AUFAB_02A"
+  click WK_AUFAB.AUFAB_02A "../../tables/WK_AUFAB/AUFAB_02A"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>CREATE TABLE</Util> inside [DWELISAAUFTRAB/auftragsabschlussmeldung_transfrm.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_transfrm.sas):
+```sql:line-numbers
+data wk_aufab.aufab_02a;
+set wk_aufab.aufab_01 (rename=(mengeInGramm=mengeInGrammc schnittGewichtInGramm=schnittGewichtInGrammc
+einkaufspreis=einkaufspreisC))
+error.f_elisa_auftragsabschluss_err;
+run;
 ```
 
 ## References

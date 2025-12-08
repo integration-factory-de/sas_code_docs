@@ -16,6 +16,22 @@ flowchart LR
   click LEGACY_DWH.F_STUECKLISTE "../../tables/LEGACY_DWH/F_STUECKLISTE"
 ```
 
+## Statements
+
+The following statements create/modify this table:
+
+<Util>CREATE TABLE</Util> inside [BDWH_SCCWVS/sccwvs_030_wvs_erst_lief_aus_stkl20.sas](../../Applications/BDWH_SCCWVS/sccwvs_030_wvs_erst_lief_aus_stkl20.sas):
+```sql:line-numbers
+create table WRKWVS.STKL_20_LAGER_ALLE as
+select * from connection to snow(
+select DISTINCT A.KOPF_ART_ID, a.POS_ART_ID
+from LEGACY_DWH.DWH.F_STUECKLISTE a
+join LEGACY_DWH.DWH.LU_D_MA_LAG B
+on a.MA_LAG_ID = B.MA_LAG_ID
+where a.STKL_TYP_ID = 20
+)
+```
+
 ## References
 
 The table F_STUECKLISTE is used in the following SAS programs:

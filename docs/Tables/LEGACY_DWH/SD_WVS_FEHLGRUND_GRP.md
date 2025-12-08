@@ -13,6 +13,11 @@ flowchart LR
 
 ```
 
+## Statements
+
+The following statements create/modify this table:
+
+
 ## References
 
 The table SD_WVS_FEHLGRUND_GRP is used in the following SAS programs:

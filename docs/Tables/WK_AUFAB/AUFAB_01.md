@@ -2,7 +2,11 @@
 
 ## Table Description
 
-_No description available_
+**DWELISAAUFTRAB** is a data warehouse application that processes **order completion messages** (Auftragsabschlussmeldung) from the ELISA system. This application handles XML-based order completion notifications from pL-Store to ELISA, containing commissioned quantities for all order positions.
+
+The table **wk_aufab.aufab_01** serves as the **primary staging table** for raw order completion data after XML parsing. It contains comprehensive order information including warehouse numbers, document numbers, article identifiers (NAN), quantities (ordered, commissioned, target), NVE details for both goods receipt and goods issue, supplier information, and pricing data.
+
+The application processes data through a **sequential job chain** (DWDW6449 through DW013912) that moves files from DFUE directories, reads XML messages using specialized maps, transforms data with master data lookups, enriches with purchase and sales prices, loads to staging and EDW tables, and maps to ELVS-compatible structures. The system handles **multiple XML message versions** and includes comprehensive error handling, duplicate detection, and replacement article logic for supply chain operations.
 
 ## Lineage / Impact
 
@@ -11,21 +15,37 @@ _No description available_
 
 flowchart LR
 
-  WK_AUFAB.XML_DIRLIST["WK_AUFAB<br/>XML_DIRLIST"] --> WK_AUFAB.AUFAB_01["WK_AUFAB<br/>AUFAB_01"]
   WK_AUFAB.AUFAB_01["WK_AUFAB<br/>AUFAB_01"] --> WK_AUFAB.PROT_F_ELISA_AUFTRAGSABSCHLUSS["WK_AUFAB<br/>PROT_F_ELISA_AUFTRAGSABSCHLUSS"]
-  WK_AUFAB.AUFAB_01["WK_AUFAB<br/>AUFAB_01"] --> WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0"]
   WK_AUFAB.AUFAB_01["WK_AUFAB<br/>AUFAB_01"] --> WK_AUFAB.AUFAB_02A["WK_AUFAB<br/>AUFAB_02A"]
   WK_AUFAB.AUFAB_01["WK_AUFAB<br/>AUFAB_01"] --> WK_AUFAB.AUFAB_02["WK_AUFAB<br/>AUFAB_02"]
+  WK_AUFAB.AUFAB_01["WK_AUFAB<br/>AUFAB_01"] --> WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0"]
+  WK_AUFAB.XML_DIRLIST["WK_AUFAB<br/>XML_DIRLIST"] --> WK_AUFAB.AUFAB_01["WK_AUFAB<br/>AUFAB_01"]
+  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
+  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
+  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
+  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
   click WK_AUFAB.XML_DIRLIST "../../tables/WK_AUFAB/XML_DIRLIST"
-  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
-  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
-  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
-  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
-  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
   click WK_AUFAB.PROT_F_ELISA_AUFTRAGSABSCHLUSS "../../tables/WK_AUFAB/PROT_F_ELISA_AUFTRAGSABSCHLUSS"
-  click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0 "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0"
   click WK_AUFAB.AUFAB_02A "../../tables/WK_AUFAB/AUFAB_02A"
   click WK_AUFAB.AUFAB_02 "../../tables/WK_AUFAB/AUFAB_02"
+  click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0 "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0"
+  click WK_AUFAB.AUFAB_01 "../../tables/WK_AUFAB/AUFAB_01"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>CREATE TABLE</Util> inside [DWELISAAUFTRAB/auftragsabschlussmeldung_einlesen.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_einlesen.sas):
+```sql:line-numbers
+proc sql;
+create table wk_aufab.aufab_tmp_wanves as
+select *
+, &xml_dname. as dateiname length=100 format=$100.
+, &meta_lfd_nummer. as lfd_nr_rohdat
+from xmllib.aufab_tmp_wanves
+;
+quit;
 ```
 
 ## References

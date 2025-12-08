@@ -2,7 +2,17 @@
 
 ## Table Description
 
-_No description available_
+**BDWH_SCCWVS** is a **Waren-Versorgungs-Statistik (WVS)** application that builds a parallel environment to replace the legacy LEGACY_DWH system in PRODUCT_SCC_PROD.
+
+This staging table is part of the WVS data processing pipeline that analyzes supply chain statistics and shortage reasons. The table stores **market authorization indicators** (Berechtigt Markt Kennzeichen) for ELVS shortage article processing.
+
+The application processes supply chain data through multiple stages:
+- Determines delivery dates for the last 28 days
+- Calculates WVS statistics using the main script *sccwvs_020_wvs_berechnen_elab.sas*
+- Identifies suppliers and processes shortage reasons
+- Aggregates data for reporting purposes
+
+This table specifically supports the **shortage reason classification system** by providing market-specific authorization flags that determine which shortage reasons are valid for different market segments. It's used in conjunction with other WVS tables to ensure proper shortage categorization and reporting accuracy across the supply chain network.
 
 ## Lineage / Impact
 
@@ -14,6 +24,15 @@ flowchart LR
   LEGACY_DWH.SD_WVS_FEHLGRUND["LEGACY_DWH<br/>SD_WVS_FEHLGRUND"] --> LEGACY_STAG.SD_ELVS_FEHL_ART_BER_MA_KZ["LEGACY_STAG<br/>SD_ELVS_FEHL_ART_BER_MA_KZ"]
   click LEGACY_DWH.SD_WVS_FEHLGRUND "../../tables/LEGACY_DWH/SD_WVS_FEHLGRUND"
   click LEGACY_STAG.SD_ELVS_FEHL_ART_BER_MA_KZ "../../tables/LEGACY_STAG/SD_ELVS_FEHL_ART_BER_MA_KZ"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>DELETE</Util> inside [BDWH_SCCWVS/sccwvs_600_cleandb.sas](../../Applications/BDWH_SCCWVS/sccwvs_600_cleandb.sas):
+```sql:line-numbers
+DELETE FROM PRODUCT_SCC_PROD.LEGACY_STAG.SD_ELVS_FEHL_ART_BER_MA_KZ
 ```
 
 ## References

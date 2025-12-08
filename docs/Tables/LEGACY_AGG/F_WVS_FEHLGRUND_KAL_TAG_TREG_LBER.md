@@ -2,7 +2,17 @@
 
 ## Table Description
 
-_No description available_
+The **BDWH_SCCWVS** application is a comprehensive **Waren-Versorgungs-Statistik (WVS)** system that processes and analyzes supply chain statistics for retail operations. This application builds a parallel environment to replace the legacy LEGACY_DWH system within PRODUCT_SCC_PROD.
+
+The table serves as an **aggregated fact table** that consolidates supply shortage reasons (**Fehlgründe**) at the daily level (**KAL_TAG**) grouped by trading regions and suppliers (**TREG_LBER**). It contains detailed metrics including order quantities, delivery quantities, shortage amounts, and associated monetary values across different pricing tiers (purchase, wholesale, retail).
+
+This table is populated through a multi-step ETL process that:
+- Extracts data from ELVS commissioning systems and ELAB sources
+- Calculates delivery dates and supplier assignments
+- Identifies WVS-relevant records and shortage reasons
+- Aggregates detailed transaction data into daily summaries by region and supplier
+
+The application processes supply chain events, tracks delivery performance, identifies shortage causes, and provides analytical insights for supply chain optimization. It supports both legacy ELVS data and new ELAB-based data sources, ensuring continuity during system migration.
 
 ## Lineage / Impact
 
@@ -11,18 +21,63 @@ _No description available_
 
 flowchart LR
 
-  LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER["LEGACY_AGG<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"] --> LEGACY_STAG.F_WVS_FEHLGRUND_KAL_WO_TREG_LBER["LEGACY_STAG<br/>F_WVS_FEHLGRUND_KAL_WO_TREG_LBER"]
-  LEGACY_STAG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER["LEGACY_STAG<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"] --> LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER["LEGACY_AGG<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"]
-  LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER["LEGACY_AGG<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"] --> PRODUCT_SCC_PROD.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER_REAGG_DELTA["PRODUCT_SCC_PROD<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER_REAGG_DELTA"]
   LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER["LEGACY_AGG<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"] --> LEGACY_STAG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER["LEGACY_STAG<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"]
+  LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER["LEGACY_AGG<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"] --> LEGACY_STAG.F_WVS_FEHLGRUND_KAL_WO_TREG_LBER["LEGACY_STAG<br/>F_WVS_FEHLGRUND_KAL_WO_TREG_LBER"]
+  LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER["LEGACY_AGG<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"] --> PRODUCT_SCC_PROD.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER_REAGG_DELTA["PRODUCT_SCC_PROD<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER_REAGG_DELTA"]
+  LEGACY_STAG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER["LEGACY_STAG<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"] --> LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER["LEGACY_AGG<br/>F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"]
+  click LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER "../../tables/LEGACY_AGG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
+  click LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER "../../tables/LEGACY_AGG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
   click LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER "../../tables/LEGACY_AGG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
   click LEGACY_STAG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER "../../tables/LEGACY_STAG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
-  click LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER "../../tables/LEGACY_AGG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
-  click LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER "../../tables/LEGACY_AGG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
+  click LEGACY_STAG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER "../../tables/LEGACY_STAG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
   click LEGACY_STAG.F_WVS_FEHLGRUND_KAL_WO_TREG_LBER "../../tables/LEGACY_STAG/F_WVS_FEHLGRUND_KAL_WO_TREG_LBER"
-  click LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER "../../tables/LEGACY_AGG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
   click PRODUCT_SCC_PROD.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER_REAGG_DELTA "../../tables/PRODUCT_SCC_PROD/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER_REAGG_DELTA"
-  click LEGACY_STAG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER "../../tables/LEGACY_STAG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
+  click LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER "../../tables/LEGACY_AGG/F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>INSERT</Util> inside [BDWH_SCCWVS/sccwvs_500_wvs_aggregate.sas](../../Applications/BDWH_SCCWVS/sccwvs_500_wvs_aggregate.sas):
+```sql:line-numbers
+INSERT INTO PRODUCT_SCC_PROD.LEGACY_AGG.F_WVS_FEHLGRUND_KAL_TAG_TREG_LBER
+SELECT
+NAN_ART_ID,
+MA_TREG_LBER_ID,
+KAL_TAG_ID,
+MA_LAG_ID,
+LIEF_ID,
+AKT_KZ,
+WAEINH,
+FEHL_ART_GRUND_ID,
+SUM(BEST_MG),
+SUM(BEST_W_EK_BTO),
+SUM(BEST_W_WG_BTO),
+SUM(BEST_W_VK_BTO),
+SUM(FEHL_GRUND_MG),
+SUM(FEHL_GRUND_W_EK_BTO),
+SUM(FEHL_GRUND_W_WG_BTO),
+SUM(FEHL_GRUND_W_VK_BTO),
+WVS_RELEVANT,
+LIEFMG_ANGEPASST
+FROM PRODUCT_SCC_PROD.LEGACY_DWH.F_WVS_FEHLGRUND F
+INNER JOIN LEGACY_DWH.DWH.LU_D_MA_HPT_ABT M
+ON (F.MA_HPT_ABT_ID = M.MA_HPT_ABT_ID)
+WHERE
+F.KAL_TAG_ID IN (SELECT DISTINCT KAL_TAG_ID
+FROM PRODUCT_SCC_PROD.LEGACY_STAG.F_WVS_FEHLGRUND_TAGE)
+GROUP BY
+NAN_ART_ID,
+MA_TREG_LBER_ID,
+KAL_TAG_ID,
+MA_LAG_ID,
+LIEF_ID,
+AKT_KZ,
+WAEINH,
+FEHL_ART_GRUND_ID,
+WVS_RELEVANT,
+LIEFMG_ANGEPASST
 ```
 
 ## References

@@ -16,6 +16,11 @@ flowchart LR
   click WKBONARA.F_SC_ABV_ARAL "../../tables/WKBONARA/F_SC_ABV_ARAL"
 ```
 
+## Statements
+
+The following statements create/modify this table:
+
+
 ## References
 
 The table F_SC_ABV_ARAL is used in the following SAS programs:

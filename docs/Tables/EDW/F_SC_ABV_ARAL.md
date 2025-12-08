@@ -2,7 +2,11 @@
 
 ## Table Description
 
-_No description available_
+The **DWABVARAL** application processes **Aral sales transaction data** for the enterprise data warehouse. This fact table stores detailed point-of-sale transactions from Aral gas stations, capturing comprehensive sales information including product details, quantities, prices, and customer payment methods.
+
+The application handles the complete **ETL pipeline** for Aral sales data: moving raw files from staging directories, unzipping compressed data files, reading and validating transaction records, performing data quality checks, and enriching records with master data references. Key processing includes mapping EAN codes to internal article IDs, associating transactions with market locations, and calculating various pricing metrics.
+
+The table supports **retail analytics and reporting** by providing granular transaction-level data with standardized formats and enriched attributes. It includes both original Aral-specific fields and harmonized enterprise fields for integration with broader retail data models. The data flows through staging areas before final loading into the enterprise data warehouse, with comprehensive error handling and data validation throughout the process.
 
 ## Lineage / Impact
 
@@ -11,21 +15,30 @@ _No description available_
 
 flowchart LR
 
-  BEREIT_F.F_SC_ABV_ARAL["BEREIT_F<br/>F_SC_ABV_ARAL"] --> EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"]
   STAG.F_SC_ABV_ARAL["STAG<br/>F_SC_ABV_ARAL"] --> EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"]
   EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"] --> DMA.LU_D_ARAL_EAN["DMA<br/>LU_D_ARAL_EAN"]
-  EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"] --> DMA.S_SC_ABV_ARAL_BASIS["DMA<br/>S_SC_ABV_ARAL_BASIS"]
   EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"] --> DMA.H_ARAL_EAN_NAN["DMA<br/>H_ARAL_EAN_NAN"]
-  click BEREIT_F.F_SC_ABV_ARAL "../../tables/BEREIT_F/F_SC_ABV_ARAL"
+  BEREIT_F.F_SC_ABV_ARAL["BEREIT_F<br/>F_SC_ABV_ARAL"] --> EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"]
+  EDW.F_SC_ABV_ARAL["EDW<br/>F_SC_ABV_ARAL"] --> DMA.S_SC_ABV_ARAL_BASIS["DMA<br/>S_SC_ABV_ARAL_BASIS"]
   click STAG.F_SC_ABV_ARAL "../../tables/STAG/F_SC_ABV_ARAL"
   click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
   click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
-  click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
+  click BEREIT_F.F_SC_ABV_ARAL "../../tables/BEREIT_F/F_SC_ABV_ARAL"
   click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
   click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
   click DMA.LU_D_ARAL_EAN "../../tables/DMA/LU_D_ARAL_EAN"
-  click DMA.S_SC_ABV_ARAL_BASIS "../../tables/DMA/S_SC_ABV_ARAL_BASIS"
   click DMA.H_ARAL_EAN_NAN "../../tables/DMA/H_ARAL_EAN_NAN"
+  click EDW.F_SC_ABV_ARAL "../../tables/EDW/F_SC_ABV_ARAL"
+  click DMA.S_SC_ABV_ARAL_BASIS "../../tables/DMA/S_SC_ABV_ARAL_BASIS"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>INSERT</Util> inside [DWABVARAL/snow_abv_aral_nach_dwh.sas](../../Applications/DWABVARAL/snow_abv_aral_nach_dwh.sas):
+```sql:line-numbers
+insert into EDW.F_SC_ABV_ARAL select * from STAG.F_SC_ABV_ARAL
 ```
 
 ## References

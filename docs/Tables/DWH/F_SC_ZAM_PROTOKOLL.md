@@ -2,7 +2,13 @@
 
 ## Table Description
 
-_No description available_
+The **DWABVARAL** application processes **Aral sales data** within a comprehensive data warehouse pipeline. This system handles the complete lifecycle of Aral fuel station sales transactions, from raw data ingestion to final data warehouse storage.
+
+The application manages multiple critical processes including **data movement** from staging areas, **file decompression** and validation, **sales data parsing** with detailed transaction information (timestamps, locations, products, amounts), and **data enrichment** with market and article identifiers. It performs **purchase price evaluations** and **data quality checks** to ensure transaction integrity.
+
+Key functionalities include **protocol logging** for audit trails, **metadata management** for tracking data lineage, **data aggregation** for reporting purposes, and **integration** with downstream systems. The system processes various data formats including EAN codes, market identifiers, sales amounts, and tax classifications.
+
+The application supports **restart capabilities** for failed jobs and includes comprehensive **error handling** with specific contact information for issue resolution. It maintains **historical data** and supports both **delta processing** and **full data loads** to the data warehouse, ensuring consistent and reliable sales data availability for business intelligence and reporting purposes.
 
 ## Lineage / Impact
 
@@ -14,6 +20,16 @@ flowchart LR
   BEREIT_F.F_SC_ABV_ARAL["BEREIT_F<br/>F_SC_ABV_ARAL"] --> DWH.F_SC_ZAM_PROTOKOLL["DWH<br/>F_SC_ZAM_PROTOKOLL"]
   click BEREIT_F.F_SC_ABV_ARAL "../../tables/BEREIT_F/F_SC_ABV_ARAL"
   click DWH.F_SC_ZAM_PROTOKOLL "../../tables/DWH/F_SC_ZAM_PROTOKOLL"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>INSERT</Util> inside [DWABVARAL/snow_abv_aral_insert_sca_delta.sas](../../Applications/DWABVARAL/snow_abv_aral_insert_sca_delta.sas):
+```sql:line-numbers
+select max(lfd_nr_load) + 1 as neue_LFD_NR_LOAD into: mlfd_nr_load
+from dwh.f_sc_zam_protokoll
 ```
 
 ## References

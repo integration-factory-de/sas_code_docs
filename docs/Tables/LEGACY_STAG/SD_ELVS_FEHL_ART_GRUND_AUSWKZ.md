@@ -2,7 +2,17 @@
 
 ## Table Description
 
-_No description available_
+**BDWH_SCCWVS** is a **WarenVersorgungsStatistik (WVS)** application that builds a parallel environment to LEGACY_DWH in PRODUCT_SCC_PROD for system replacement purposes.
+
+This staging table is part of the WVS data processing pipeline that analyzes supply chain statistics and shortage reasons. The table stores **shortage reason selection indicators** (*FEHL_ART_GRUND_AUSWKZ*) used in the WVS calculation process.
+
+The application processes data from ELAB-based warehouses (post-ELVS core replacement) and performs multi-stage supplier determination, shortage reason analysis, and relevance identification. Key processing includes:
+- Daily unloading date determination for the last 28 days
+- Line-by-line resolution of shortage quantities and values by reasons
+- WVS relevance marking and supplier identification
+- Aggregation calculations for reporting
+
+The table is populated during the WVS calculation workflow and cleaned up at the end of each processing cycle. It supports the transition from the legacy ELVS system to the new ELAB-based data sources while maintaining backward compatibility for reporting and analysis.
 
 ## Lineage / Impact
 
@@ -14,6 +24,15 @@ flowchart LR
   LEGACY_DWH.SD_ELVS_FEHL_ART_GRUND_AUSWKZ["LEGACY_DWH<br/>SD_ELVS_FEHL_ART_GRUND_AUSWKZ"] --> LEGACY_STAG.SD_ELVS_FEHL_ART_GRUND_AUSWKZ["LEGACY_STAG<br/>SD_ELVS_FEHL_ART_GRUND_AUSWKZ"]
   click LEGACY_DWH.SD_ELVS_FEHL_ART_GRUND_AUSWKZ "../../tables/LEGACY_DWH/SD_ELVS_FEHL_ART_GRUND_AUSWKZ"
   click LEGACY_STAG.SD_ELVS_FEHL_ART_GRUND_AUSWKZ "../../tables/LEGACY_STAG/SD_ELVS_FEHL_ART_GRUND_AUSWKZ"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>DELETE</Util> inside [BDWH_SCCWVS/sccwvs_600_cleandb.sas](../../Applications/BDWH_SCCWVS/sccwvs_600_cleandb.sas):
+```sql:line-numbers
+DELETE FROM PRODUCT_SCC_PROD.LEGACY_STAG.SD_ELVS_FEHL_ART_GRUND_AUSWKZ
 ```
 
 ## References

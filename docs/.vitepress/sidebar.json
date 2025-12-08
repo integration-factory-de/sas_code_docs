@@ -360,6 +360,10 @@
         "link": "/Tables/LEGACY_DWH/",
         "items": [
           {
+            "text": "AGG",
+            "link": "/Tables/LEGACY_DWH/AGG"
+          },
+          {
             "text": "DWH",
             "link": "/Tables/LEGACY_DWH/DWH"
           },

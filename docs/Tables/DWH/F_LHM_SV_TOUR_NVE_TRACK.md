@@ -2,7 +2,13 @@
 
 ## Table Description
 
-_No description available_
+**BDWH_SCCWVS** is a **WarenVersorgungsStatistik (WVS)** application that builds a parallel environment to replace the legacy LEGACY_DWH system in PRODUCT_SCC_PROD. The application processes supply chain statistics and logistics data for retail operations.
+
+The **F_LHM_SV_TOUR_NVE_TRACK** table serves as a critical data source within this WVS ecosystem, containing **NVE (Nummer der Versandeinheit) tracking information** for logistics tours and shipments. This table tracks the movement and status of shipping units through various transportation stages, capturing essential delivery and logistics data.
+
+The table is primarily used in the **discharge day determination process** (sccwvs_005_wvs_ablade_tag.sas), where it helps identify delivery dates for the last 28 days by filtering records with specific NVE_STATUS values (210, 245, 246, 250, 255) and non-failed status indicators. The data supports **recursive tracking** of shipping unit hierarchies and enables the calculation of actual delivery dates versus planned delivery schedules.
+
+This logistics tracking data is fundamental for **supply chain analytics**, **delivery performance monitoring**, and **warehouse management reporting** within the broader WVS statistical framework, ultimately supporting retail supply chain optimization and performance measurement.
 
 ## Lineage / Impact
 
@@ -21,6 +27,11 @@ flowchart LR
   click LEGACY_STAG.F_WVS_ABLADE_DATUM "../../tables/LEGACY_STAG/F_WVS_ABLADE_DATUM"
   click DWH.F_LHM_SV_TOUR_NVE_STAMM "../../tables/DWH/F_LHM_SV_TOUR_NVE_STAMM"
 ```
+
+## Statements
+
+The following statements create/modify this table:
+
 
 ## References
 

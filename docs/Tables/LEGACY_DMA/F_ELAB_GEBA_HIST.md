@@ -2,7 +2,19 @@
 
 ## Table Description
 
-_No description available_
+**F_ELAB_GEBA_HIST** is a historical data table within the **BDWH_ELABGEBA** application that supports the **ELVS core replacement** initiative. This table serves as the historical repository for container unit data (Gebindeeinheit-Daten) from goods outbound processes.
+
+The application **merges legacy ELVS GEBA data with new ELISA data sources**, specifically combining XML messages from ELISA article warehouse supply containing logistic factors and stockkeeping units. The table maintains historical versions of container unit records with **temporal validity tracking** through GUELT_VON and GUELT_BIS fields.
+
+**Key features include:**
+- Historical preservation of container unit master data
+- **Dual data source integration** (legacy ELVS and new ELISA systems)
+- Temporal data management with validity periods
+- **Source tracking** via HERKUNFT_BASIS field (ELVS/ELAB)
+- Physical dimension storage (length, width, height, volume)
+- Weight and packaging specifications
+
+The table supports **data warehouse views** that must be redirected from legacy ELVS tables to these new DMA tables post-migration. Processing occurs through a **three-stage ETL pipeline** (DW013803-DW013805) that consolidates data, applies historical logic, and maintains data lineage for downstream analytical processes.
 
 ## Lineage / Impact
 
@@ -11,15 +23,25 @@ _No description available_
 
 flowchart LR
 
-  LEGACY_STAG.F_ELAB_GEBA_HIST["LEGACY_STAG<br/>F_ELAB_GEBA_HIST"] --> LEGACY_DMA.F_ELAB_GEBA_HIST["LEGACY_DMA<br/>F_ELAB_GEBA_HIST"]
   LEGACY_DMA.F_ELAB_GEBA_HIST["LEGACY_DMA<br/>F_ELAB_GEBA_HIST"] --> LEGACY_STAG.F_ELVS_GEBA_HIST["LEGACY_STAG<br/>F_ELVS_GEBA_HIST"]
+  LEGACY_STAG.F_ELAB_GEBA_HIST["LEGACY_STAG<br/>F_ELAB_GEBA_HIST"] --> LEGACY_DMA.F_ELAB_GEBA_HIST["LEGACY_DMA<br/>F_ELAB_GEBA_HIST"]
   LEGACY_DMA.F_ELAB_GEBA_HIST["LEGACY_DMA<br/>F_ELAB_GEBA_HIST"] --> LEGACY_STAG.F_ELAB_GEBA_HIST["LEGACY_STAG<br/>F_ELAB_GEBA_HIST"]
+  click LEGACY_DMA.F_ELAB_GEBA_HIST "../../tables/LEGACY_DMA/F_ELAB_GEBA_HIST"
   click LEGACY_STAG.F_ELAB_GEBA_HIST "../../tables/LEGACY_STAG/F_ELAB_GEBA_HIST"
-  click LEGACY_DMA.F_ELAB_GEBA_HIST "../../tables/LEGACY_DMA/F_ELAB_GEBA_HIST"
-  click LEGACY_DMA.F_ELAB_GEBA_HIST "../../tables/LEGACY_DMA/F_ELAB_GEBA_HIST"
   click LEGACY_DMA.F_ELAB_GEBA_HIST "../../tables/LEGACY_DMA/F_ELAB_GEBA_HIST"
   click LEGACY_STAG.F_ELVS_GEBA_HIST "../../tables/LEGACY_STAG/F_ELVS_GEBA_HIST"
+  click LEGACY_DMA.F_ELAB_GEBA_HIST "../../tables/LEGACY_DMA/F_ELAB_GEBA_HIST"
   click LEGACY_STAG.F_ELAB_GEBA_HIST "../../tables/LEGACY_STAG/F_ELAB_GEBA_HIST"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>INSERT</Util> inside [BDWH_ELABGEBA/snow_elabgeba_200_nach_dma.sas](../../Applications/BDWH_ELABGEBA/snow_elabgeba_200_nach_dma.sas):
+```sql:line-numbers
+delete from PRODUCT_LSP_LEGACY_PROD.LEGACY_DMA.F_ELAB_GEBA_HIST
+insert into PRODUCT_LSP_LEGACY_PROD.LEGACY_DMA.F_ELAB_GEBA_HIST select * from PRODUCT_LSP_LEGACY_PROD.LEGACY_STAG.F_ELAB_GEBA_HIST
 ```
 
 ## References

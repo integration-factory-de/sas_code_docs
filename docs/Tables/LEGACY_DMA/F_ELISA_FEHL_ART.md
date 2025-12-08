@@ -2,7 +2,13 @@
 
 ## Table Description
 
-_No description available_
+**DWELISAAUFTRAB** is a comprehensive data warehouse application that processes order completion messages from the ELISA system. The application handles XML-based order completion notifications (AuftragsabschlussmeldungV2) from pL-Store to ELISA, containing detailed information about commissioned quantities for all order positions.
+
+The system processes order completion data through a **sequential job chain** consisting of 13 jobs (DWDW6449 through DW013912) that handle data movement, XML parsing, transformation, enrichment, and loading operations. Key processing steps include moving raw XML files from DFUE directories, parsing XML structures using specialized maps, transforming data with master data lookups, and enriching records with purchase and sales prices.
+
+The application supports **multi-level position structures** where orders can contain 1-n WaNVE (outbound shipping units) and each WaNVE can contain 1-n articles. It handles complex scenarios including replacement articles, cancellation positions, and commissioning runs. The system includes comprehensive error handling, metadata tracking, and data archiving capabilities.
+
+The final output table **F_ELISA_FEHL_ART** aggregates order completion data to match the structure of F_ELVS_FEHL_ART, providing consolidated information about ordered quantities, delivered quantities, shortage quantities, and various position-level attributes including pricing, weight, and logistics details. This enables supply chain cockpit reporting and analysis of order fulfillment performance across the REWE logistics network.
 
 ## Lineage / Impact
 
@@ -14,6 +20,87 @@ flowchart LR
   LEGACY_STAG.F_ELISA_FEHL_ART["LEGACY_STAG<br/>F_ELISA_FEHL_ART"] --> LEGACY_DMA.F_ELISA_FEHL_ART["LEGACY_DMA<br/>F_ELISA_FEHL_ART"]
   click LEGACY_STAG.F_ELISA_FEHL_ART "../../tables/LEGACY_STAG/F_ELISA_FEHL_ART"
   click LEGACY_DMA.F_ELISA_FEHL_ART "../../tables/LEGACY_DMA/F_ELISA_FEHL_ART"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>MERGE</Util> inside [DWELISAAUFTRAB/snow_auftragsabschlussmeldung_fa_n_edw.sas](../../Applications/DWELISAAUFTRAB/snow_auftragsabschlussmeldung_fa_n_edw.sas):
+```sql:line-numbers
+merge into PRODUCT_SCC_PROD.LEGACY_DMA.F_ELISA_FEHL_ART ziel
+using PRODUCT_SCC_PROD.LEGACY_STAG.F_ELISA_FEHL_ART quelle
+on ziel.ma_lag_id = quelle.ma_lag_id and
+ziel.nan_art_id = quelle.nan_art_id and
+ziel.akt_kz = quelle.akt_kz and
+ziel.kal_tag_id = quelle.kal_tag_id and
+ziel.kopf_lifschn_nr = quelle.kopf_lifschn_nr and
+ziel.pos_kst8_aufnr = quelle.pos_kst8_aufnr and
+ziel.ma_hpt_abt_id = quelle.ma_hpt_abt_id and
+ziel.pos_waeinh = quelle.pos_waeinh
+when matched then
+update set
+BEST_MG = quelle.BEST_MG
+, LIEF_MG = quelle.LIEF_MG
+, FEHL_MG = quelle.FEHL_MG
+, ERS_LIEF_MG = quelle.ERS_LIEF_MG
+, ERS_FEHL_MG = quelle.ERS_FEHL_MG
+, POS_LEERGUTKZ = quelle.POS_LEERGUTKZ
+, POS_FRISCHEKZ = quelle.POS_FRISCHEKZ
+, POS_KMMNG = quelle.POS_KMMNG
+, POS_DIFFMNG = quelle.POS_DIFFMNG
+, POS_GEWICHT = quelle.POS_GEWICHT
+, LFD_NUMMER = quelle.LFD_NUMMER
+, AUSLIEF_LAGNR = quelle.AUSLIEF_LAGNR
+, LAGNR = quelle.LAGNR
+, POS_WA_IST = quelle.POS_WA_IST
+, POS_LADEGEWICHT = quelle.POS_LADEGEWICHT
+, KOPF_LIFART = quelle.KOPF_LIFART
+, LIF_NVE = quelle.LIF_NVE
+, LIEF_ID = quelle.LIEF_ID
+, POS_KV_URSACHE = quelle.POS_KV_URSACHE
+, VK_BTO = quelle.VK_BTO
+, VK_NTO = quelle.VK_NTO
+, EINKAUFSPREIS = quelle.EINKAUFSPREIS
+, POS_MWKZ = quelle.POS_MWKZ
+, POS_KUERZ_KST_KZ = quelle.POS_KUERZ_KST_KZ
+, POS_FEHLER_SCHL = quelle.POS_FEHLER_SCHL
+when not matched then insert values
+(
+quelle.MA_LAG_ID
+, quelle.NAN_ART_ID
+, quelle.AKT_KZ
+, quelle.MA_HPT_ABT_ID
+, quelle.KAL_TAG_ID
+, quelle.BEST_MG
+, quelle.LIEF_MG
+, quelle.FEHL_MG
+, quelle.ERS_LIEF_MG
+, quelle.ERS_FEHL_MG
+, quelle.POS_LEERGUTKZ
+, quelle.POS_FRISCHEKZ
+, quelle.POS_WAEINH
+, quelle.POS_KMMNG
+, quelle.POS_DIFFMNG
+, quelle.POS_GEWICHT
+, quelle.LFD_NUMMER
+, quelle.AUSLIEF_LAGNR
+, quelle.LAGNR
+, quelle.POS_WA_IST
+, quelle.POS_LADEGEWICHT
+, quelle.KOPF_LIFSCHN_NR
+, quelle.KOPF_LIFART
+, quelle.LIF_NVE
+, quelle.LIEF_ID
+, quelle.POS_KV_URSACHE
+, quelle.POS_KST8_AUFNR
+, quelle.VK_BTO
+, quelle.VK_NTO
+, quelle.EINKAUFSPREIS
+, quelle.POS_MWKZ
+, quelle.POS_KUERZ_KST_KZ
+, quelle.POS_FEHLER_SCHL
+)
 ```
 
 ## References

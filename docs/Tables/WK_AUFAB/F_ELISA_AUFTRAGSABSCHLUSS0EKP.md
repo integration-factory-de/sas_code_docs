@@ -2,7 +2,18 @@
 
 ## Table Description
 
-_No description available_
+The **DWELISAAUFTRAB** application processes order completion messages from the ELISA system, handling XML data from pL-Store warehouse management. This table represents an intermediate stage in the data processing pipeline, containing order completion data enriched with purchase prices (EKP).
+
+The application follows a **sequential job workflow** that moves XML files through multiple transformation stages: file movement, XML parsing, data transformation, price enrichment, and database loading. The table specifically holds order completion records after purchase price evaluation and assignment.
+
+**Key functionalities** include:
+- Processing XML order completion messages with multi-level position structures (orders ¿ WaNVE ¿ articles)
+- Applying **purchase price evaluation** across multiple stages (current prices, future prices, past prices, average prices)
+- Handling **replacement article logic** where original articles are substituted during fulfillment
+- Managing **cancellation positions** (storno) that represent ordered but cancelled items
+- Supporting **commission run tracking** and NVE (shipping unit) management
+
+The data flows from raw XML files through SAS processing into Snowflake staging and production tables, ultimately feeding into supply chain analytics and reporting systems. The application runs **four times daily** and includes comprehensive error handling, metadata tracking, and data archival processes.
 
 ## Lineage / Impact
 
@@ -11,15 +22,33 @@ _No description available_
 
 flowchart LR
 
+  WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0"] --> WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0EKP"]
   WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS"] --> WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0EKP"]
   WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0EKP"] --> WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS"]
-  WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0"] --> WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS0EKP"]
-  click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS"
-  click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0EKP"
   click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0 "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0"
-  click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0EKP"
   click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS"
   click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0EKP"
+  click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0EKP"
+  click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS0EKP "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS0EKP"
+  click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>CREATE TABLE</Util> inside [DWELISAAUFTRAB/auftragsabschlussmeldung_ekp.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_ekp.sas):
+```sql:line-numbers
+create table wk_aufab.f_elisa_auftragsabschluss_a0 as
+select b.*,
+case when e.wa_ekp eq . then 0.0 else e.wa_ekp end as einkaufspreis,
+case when e.wa_ekp eq . then 'N' else '0' end as BEWERTUNG_KZ
+from wk_aufab.f_elisa_auftragsabschluss0 (drop=einkaufspreis) as b
+left join wk_aufab.f_wa_ek as e
+on b.ma_lag_id = e.ma_lag_id and
+b.nan_art_id = e.nan_art_id and
+b.akt_kz = e.akt_kz and
+e.wa_ek_guelt_von le b.kal_tag_id le e.wa_ek_guelt_bis
 ```
 
 ## References
@@ -28,8 +57,8 @@ The table F_ELISA_AUFTRAGSABSCHLUSS0EKP is used in the following SAS programs:
 
 | Application | SAS Program |
 |---|---|
-| [DWELISAAUFTRAB](../../Applications/DWELISAAUFTRAB) | [auftragsabschlussmeldung_vkp.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_vkp.sas) |
 | [DWELISAAUFTRAB](../../Applications/DWELISAAUFTRAB) | [auftragsabschlussmeldung_ekp.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_ekp.sas) |
+| [DWELISAAUFTRAB](../../Applications/DWELISAAUFTRAB) | [auftragsabschlussmeldung_vkp.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_vkp.sas) |
 ## Table Schema
 
 | Field Name | Datatype | Precision | Scale | Is Nullable | Constraint | Description |

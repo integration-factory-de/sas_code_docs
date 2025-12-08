@@ -2,7 +2,17 @@
 
 ## Table Description
 
-_No description available_
+The **DWABVARAL** application processes Aral fuel station sales data through a comprehensive ETL pipeline. This table serves as a **master data repository for market/store information** within the data warehouse infrastructure.
+
+The application handles the complete lifecycle of Aral sales data processing, including:
+- **Data Movement**: Moving raw sales files from staging directories to processing areas
+- **Data Extraction**: Unzipping and reading Aral sales transaction files with validation controls
+- **Data Transformation**: Converting raw sales records into standardized warehouse format with proper market ID mapping
+- **Data Loading**: Inserting processed data into Snowflake data warehouse tables
+
+The **bereit_d.D_MA** table is specifically utilized during the sales data processing to **map Aral partner numbers (ILN_WARE) to internal market IDs (MA_ID)**. This mapping is critical for associating sales transactions with the correct store locations and includes validity date ranges (MA_GUELT_VON/MA_GUELT_BIS) to ensure accurate historical data processing.
+
+The table supports the application's data quality controls by providing fallback mechanisms when market mappings cannot be established, ensuring data integrity throughout the processing pipeline. This is essential for downstream reporting and analytics in the retail data warehouse environment.
 
 ## Lineage / Impact
 
@@ -14,6 +24,23 @@ flowchart LR
   BEREIT_D.D_MA["BEREIT_D<br/>D_MA"] --> BEREIT_D.D_MA["BEREIT_D<br/>D_MA"]
   click BEREIT_D.D_MA "../../tables/BEREIT_D/D_MA"
   click BEREIT_D.D_MA "../../tables/BEREIT_D/D_MA"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>CREATE TABLE</Util> inside [DWABVARAL/snow_abv_aral_einlesen.sas](../../Applications/DWABVARAL/snow_abv_aral_einlesen.sas):
+```sql:line-numbers
+PROC SQL;
+CREATE TABLE WRKABVAR.ARAL_ABVERKAUF_01 AS
+SELECT A.*, COALESCE(B.MA_ID,1000000000) AS MA_ID
+FROM WRKABVAR.ARAL_ABVERKAUF A
+LEFT JOIN bereit_d.D_MA B
+ON A.ARAL_PART_NR = B.ILN_WARE
+AND A.KAL_TAG_ID between B.MA_GUELT_VON and B.MA_GUELT_BIS
+;
+QUIT;
 ```
 
 ## References

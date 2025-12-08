@@ -5,6 +5,12 @@
   --vp-c-brand-2: #3375db;
   --vp-sidebar-width: 420px;
   --vp-layout-max-width: 100%;
+  --vp-code-max-height: 400px;
+}
+
+.language-sql {
+  max-height: 485px;
+  overflow-y: auto;
 }
 
 

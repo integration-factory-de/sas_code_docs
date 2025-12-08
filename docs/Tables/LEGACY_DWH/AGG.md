@@ -1,4 +1,4 @@
-# F_WVS_FEHLGRUND (Table)
+# AGG (Table)
 
 ## Table Description
 
@@ -20,7 +20,7 @@ The following statements create/modify this table:
 
 ## References
 
-The table F_WVS_FEHLGRUND is used in the following SAS programs:
+The table AGG is used in the following SAS programs:
 
 | Application | SAS Program |
 |---|---|
@@ -28,3 +28,6 @@ The table F_WVS_FEHLGRUND is used in the following SAS programs:
 
 | Field Name | Datatype | Precision | Scale | Is Nullable | Constraint | Description |
 |---|---|---|---|---|---|---|
+| MA_HPT_ABT_ID | BIGINT | 19 | 0 | FALSE | PRIMARY KEY | Market headquarters department identifier |
+| MA_TREG_LBER_ID | BIGINT | 19 | 0 | FALSE | PRIMARY KEY | Market trading region delivery area identifier |
+| RICHTUNG | INTEGER | 10 | 0 | TRUE |   | Direction indicator for flow mapping |

@@ -2,7 +2,20 @@
 
 ## Table Description
 
-_No description available_
+The **DWELISAAUFTRAB** application processes order completion messages from the ELISA system, specifically handling XML-based order completion notifications (AuftragsabschlussmeldungV2) from pL-Store to ELISA.
+
+This staging table serves as an intermediate storage layer for order completion data during the ETL pipeline. The application follows a **sequential job workflow** that moves XML files from raw data directories, parses them using XML maps, transforms the data with pricing information (both purchase and sales prices), and loads it into various database layers.
+
+Key processing steps include:
+- **XML file ingestion** from MQS transfer jobs
+- **Data transformation** with master data lookups for warehouses, articles, suppliers, and markets
+- **Price enrichment** through multiple pricing hierarchies (IVKP, detail, region/area, standard prices)
+- **Replacement article handling** for substituted items
+- **Data aggregation** to match F_ELVS_FEHL_ART structure
+
+The application handles **commissioning completion messages** containing all picked quantities for order positions, including warehouse NVE (shipping unit) and article-level details. It processes both regular orders and cancellation positions, with support for multi-level position structures (orders can contain 1-n WaNVE, each containing 1-n articles).
+
+The system runs **four times daily** and includes comprehensive error handling, data validation, and automated notifications for missing files or processing issues.
 
 ## Lineage / Impact
 
@@ -14,6 +27,15 @@ flowchart LR
   WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS["WK_AUFAB<br/>F_ELISA_AUFTRAGSABSCHLUSS"] --> LEGACY_STAG.F_ELISA_AUFTRAGSABSCHLUSS["LEGACY_STAG<br/>F_ELISA_AUFTRAGSABSCHLUSS"]
   click WK_AUFAB.F_ELISA_AUFTRAGSABSCHLUSS "../../tables/WK_AUFAB/F_ELISA_AUFTRAGSABSCHLUSS"
   click LEGACY_STAG.F_ELISA_AUFTRAGSABSCHLUSS "../../tables/LEGACY_STAG/F_ELISA_AUFTRAGSABSCHLUSS"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>INSERT</Util> inside [DWELISAAUFTRAB/snow_auftragsabschlussmeldung_laden.sas](../../Applications/DWELISAAUFTRAB/snow_auftragsabschlussmeldung_laden.sas):
+```sql:line-numbers
+INSERT INTO PRODUCT_LSP_LEGACY_PROD.LEGACY_STAG.F_ELISA_AUFTRAGSABSCHLUSS SELECT * FROM wk_aufab.f_elisa_auftragsabschluss
 ```
 
 ## References

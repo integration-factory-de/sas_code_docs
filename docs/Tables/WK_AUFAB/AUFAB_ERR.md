@@ -2,7 +2,13 @@
 
 ## Table Description
 
-_No description available_
+The **wk_aufab.aufab_err** table serves as an error repository within the **DWELISAAUFTRAB** application, which processes order completion messages from the ELISA system. This application handles XML-based order completion notifications (AuftragsabschlussmeldungV2) from pL-Store to ELISA.
+
+The table captures records that fail validation during the transformation process, specifically when master data lookups fail for critical identifiers like warehouse-market combinations (ma_lag_id), warehouse identifiers (lag_id), article numbers (nan_art_id), or market identifiers (ma_id). When these lookups return default error values (such as 1000000000 for ma_lag_id/ma_id, 9999 for lag_id, or 100000000 for nan_art_id), the records are automatically routed to this error table.
+
+The application processes order completion data through a comprehensive pipeline including XML parsing, data transformation, price enrichment (both purchase and sales prices), and loading to staging and production databases. The error table ensures data quality by segregating problematic records that require manual review and correction, while allowing the main processing flow to continue with valid data.
+
+This error handling mechanism is crucial for maintaining data integrity in the supply chain cockpit system, as the order completion messages contain critical information about commissioned quantities, delivery details, and article-specific data used for downstream analytics and reporting.
 
 ## Lineage / Impact
 
@@ -14,6 +20,71 @@ flowchart LR
   WK_AUFAB.AUFAB_02["WK_AUFAB<br/>AUFAB_02"] --> WK_AUFAB.AUFAB_ERR["WK_AUFAB<br/>AUFAB_ERR"]
   click WK_AUFAB.AUFAB_02 "../../tables/WK_AUFAB/AUFAB_02"
   click WK_AUFAB.AUFAB_ERR "../../tables/WK_AUFAB/AUFAB_ERR"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>Data Quality Check</Util> inside [DWELISAAUFTRAB/auftragsabschlussmeldung_transfrm.sas](../../Applications/DWELISAAUFTRAB/auftragsabschlussmeldung_transfrm.sas):
+```sql:line-numbers
+data wk_aufab.f_elisa_auftragsabschluss0
+(keep= MA_LAG_ID LAG_ID NAN_ART_ID AKT_KZ LIEF_ID MA_ID KAL_TAG_ID BUCHUNGSDATUM
+MHDATUM AuftragsabschlussmeldungV2_fullC lagerNummer belegNummer vorgangsSchluessel
+wwIdent_bilanzstelle wwIdent_vertriebsbereich wwIdent_filialnummer
+marktNummer_bereich marktNummer_region marktNummer_zaehlNummer kommissionierlaufNummer kst8AuftragNummer
+plStoreAuftragsNummer lieferart buchungsDatum_day buchungsDatum_month buchungsDatum_year belegDatum_day
+belegDatum_month belegDatum_year waNve_erweiterungsZiffer waNve_fortlaufendeNummer
+waNve_globalCompanyPrefix waNve_pruefZiffer lhmKuerzel lhmArtikelnummer lhm_nan_art_id
+nan waEinheit weNve_erweiterungsZiffer weNve_fortlaufendeNummer
+weNve_globalCompanyPrefix weNve_pruefZiffer auftragsMengeInStueck istKommMengeInStueck sollKommMengeInStueck mengeInGramm kvGrund
+mhd_day mhd_month mhd_year ursprungsland charge lieferantenNr zusatzPosition schnittGewichtInGramm
+einkaufspreis
+dateiname lfd_nr_rohdat
+gebindeKz fortlaufendeNummer gangNummer platz
+faktnr
+teilKommId referenzen betriebe mhd_type
+land_typ grai fehlerschluessel
+rueckmeldungId
+chargeid
+storno_kennz
+referenz_nan
+referenz_waeinheit
+referenz_nan_art_id
+fmgrund_storno
+pickNan
+pickEinheit
+)
+wk_aufab.aufab_err
+(keep= MA_LAG_ID LAG_ID NAN_ART_ID AKT_KZ LIEF_ID MA_ID KAL_TAG_ID BUCHUNGSDATUM
+MHDATUM AuftragsabschlussmeldungV2_fullC lagerNummer belegNummer vorgangsSchluessel
+wwIdent_bilanzstelle wwIdent_vertriebsbereich wwIdent_filialnummer
+marktNummer_bereich marktNummer_region marktNummer_zaehlNummer kommissionierlaufNummer kst8AuftragNummer
+plStoreAuftragsNummer lieferart buchungsDatum_day buchungsDatum_month buchungsDatum_year belegDatum_day
+belegDatum_month belegDatum_year waNve_erweiterungsZiffer waNve_fortlaufendeNummer
+waNve_globalCompanyPrefix waNve_pruefZiffer lhmKuerzel lhmArtikelnummer lhm_nan_art_id
+nan waEinheit weNve_erweiterungsZiffer weNve_fortlaufendeNummer
+weNve_globalCompanyPrefix weNve_pruefZiffer auftragsMengeInStueck istKommMengeInStueck sollKommMengeInStueck mengeInGramm kvGrund
+mhd_day mhd_month mhd_year ursprungsland charge lieferantenNr zusatzPosition schnittGewichtInGramm
+einkaufspreis
+dateiname lfd_nr_rohdat mengeInGrammC schnittGewichtInGrammC einkaufspreisC
+gebindeKz fortlaufendeNummer gangNummer platz
+faktnr
+teilKommId referenzen betriebe mhd_type
+land_typ grai fehlerschluessel
+rueckmeldungId
+chargeid
+storno_kennz
+referenz_nan
+referenz_waeinheit
+referenz_nan_art_id
+fmgrund_storno
+pickNan
+pickEinheit
+) 
+if ma_lag_id=1000000000 or lag_id=9999 or nan_art_id=100000000 or ma_id=1000000000
+then output wk_aufab.aufab_err 
+else output wk_aufab.f_elisa_auftragsabschluss0
 ```
 
 ## References

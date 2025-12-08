@@ -2,7 +2,21 @@
 
 ## Table Description
 
-_No description available_
+**DWABVARAL** is a comprehensive data warehouse application that processes **Aral fuel station sales data** for integration into the corporate sales data warehouse.
+
+The application handles the complete **ETL pipeline** for Aral point-of-sale transactions, including:
+
+• **Data ingestion** from raw Aral sales files delivered via DFUE interface
+• **File processing** with validation, decompression and sequential file handling
+• **Data transformation** including article mapping (EAN to NAN conversion), market ID assignment, and purchase price evaluation
+• **Quality assurance** through control record validation and data consistency checks
+• **Staging operations** for loading processed data into STAG.F_SC_ABV_KONZERN_DELTA table
+
+The table serves as a **staging area** for consolidated Aral sales data before final integration into the enterprise data warehouse. It contains aggregated transaction data with standardized formats for amounts, quantities, article identifiers, and market references.
+
+Key features include **error handling** with automatic validation of file sequences, **metadata tracking** for audit trails, and **purchase price evaluation** using corporate pricing models. The application supports **restart capability** and includes comprehensive logging for operational monitoring.
+
+This system enables **centralized reporting** and analysis of Aral fuel station performance within the broader corporate retail analytics framework.
 
 ## Lineage / Impact
 
@@ -14,6 +28,30 @@ flowchart LR
   STAG.F_SC_ABV_ARAL["STAG<br/>F_SC_ABV_ARAL"] --> STAG.F_SC_ABV_KONZERN_DELTA["STAG<br/>F_SC_ABV_KONZERN_DELTA"]
   click STAG.F_SC_ABV_ARAL "../../tables/STAG/F_SC_ABV_ARAL"
   click STAG.F_SC_ABV_KONZERN_DELTA "../../tables/STAG/F_SC_ABV_KONZERN_DELTA"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>INSERT</Util> inside [DWABVARAL/snow_abv_aral_insert_sca_delta.sas](../../Applications/DWABVARAL/snow_abv_aral_insert_sca_delta.sas):
+```sql:line-numbers
+INSERT INTO STAG.F_SC_ABV_KONZERN_DELTA
+select pos.ma_id,nan_art_id,akt_kz,kal_tag_id,vlt_id,ums_art_id,kopf_art_id,stat_kz_id,abt_nr,abv_ean,
+fremd_artikel_typ_id,fremd_artikel_nr,fremd_markt_typ_id,fremd_markt_nr,konz_nr,sum(abv_w_nn_ek) as abv_w_nn_ek,
+sum(abv_w_bew_ek) as abv_w_bew_ek,sum(abv_w_wgp_ek) as abv_w_wgp_ek,sum(abv_w_markt_ek) as abv_w_markt_ek,
+sum(abv_w_nto) as abv_w_nto,sum(abv_w_bto) as abv_w_bto,sum(abv_w_bto_vr) as abv_w_bto_vr,sum(abv_w_bto_fw) as abv_w_bto_fw,
+sum(ARAL_MENGE) as abv_mg,COUNT(DISTINCT ARAL_BELEG) as anz_bon,COUNT(DISTINCT ARAL_BELEG) as anz_kunden,quelle_id,abv_bewert_id,
+mf_flag, LFD_NR_LOAD AS lfd_nr_rohdat,&mlfd_nr_load. as lfd_nr_load,sum(abv_w_rkp_ek) as abv_w_rkp_ek,
+hist_fokus_grp,hist_fokus_sort,hist_abt_grp,hist_abt_nr, 0 AS AKTION_NR, CAST (ARAL_MWST_TYP AS CHAR) AS T4734_MWST_KZ ,
+HIST_MWST_ID,SUM(ABV_W_NN_DEK) AS ABV_W_NN_DEK,
+SUM(ABV_W_WGP_DEK) AS ABV_W_WGP_DEK, SUM(ABV_W_NN_DEK_KORR) AS ABV_W_NN_DEK_KORR, SUM(ABV_W_WGP_DEK_KORR) AS ABV_W_WGP_DEK_KORR,
+'000' AS MABU_LIEF_ART_ID, 0 AS T4360_BESTAND_NAN, 0 AS BESTAND_NAN_ART_ID, 0 As T4360_MABU_BESTAND_NAN,
+0 AS MABU_BESTAND_NAN_ART_ID, 0 as T4734_MULTIPLIKATOR
+from STAG.F_SC_ABV_ARAL pos
+group by pos.ma_id,nan_art_id,akt_kz,kal_tag_id,vlt_id,ums_art_id,kopf_art_id,stat_kz_id,abt_nr,abv_ean,
+fremd_artikel_typ_id,fremd_artikel_nr,fremd_markt_typ_id,fremd_markt_nr,konz_nr,quelle_id,abv_bewert_id,
+mf_flag,lfd_nr_load,hist_fokus_grp,hist_fokus_sort,hist_abt_grp,hist_abt_nr,ARAL_MWST_TYP,HIST_MWST_ID
 ```
 
 ## References

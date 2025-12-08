@@ -2,7 +2,13 @@
 
 ## Table Description
 
-_No description available_
+The **DWELISAAUFTRAB** application processes order completion messages from the ELISA system, handling XML data from pL-Store warehouse management. This fact table stores detailed order completion data including commissioned quantities, article information, and delivery details.
+
+The application runs a **sequential job chain** (DWDW6449 through DW013912) that moves XML files from raw data directories, parses them using XML maps, transforms the data with master data lookups, and loads it into staging and EDW tables. Key transformations include mapping warehouse numbers to MA_LAG_ID, article numbers to NAN_ART_ID, and supplier numbers to LIEF_ID using format catalogs.
+
+The table captures **order completion events** with both header and position-level data, supporting a 2-level position structure where orders contain 1-n WaNVEs (outbound containers) and each WaNVE contains 1-n articles. It handles **replacement article scenarios** where original articles are substituted, **cancellation positions** for cancelled items, and includes **pricing information** (purchase and sales prices) added through separate enrichment steps.
+
+Data processing includes **duplicate handling** using sequential numbering, **error record management** for transformation failures, and **archival of raw XML files**. The application supports **multiple daily runs** and includes automated email notifications when no data files are present, making it suitable for high-frequency supply chain data processing.
 
 ## Lineage / Impact
 
@@ -14,6 +20,100 @@ flowchart LR
   LEGACY_STAG.F_ELISA_FEHL_ART["LEGACY_STAG<br/>F_ELISA_FEHL_ART"] --> LEGACY_EDW.F_ELISA_AUFTRAGSABSCHLUSS["LEGACY_EDW<br/>F_ELISA_AUFTRAGSABSCHLUSS"]
   click LEGACY_STAG.F_ELISA_FEHL_ART "../../tables/LEGACY_STAG/F_ELISA_FEHL_ART"
   click LEGACY_EDW.F_ELISA_AUFTRAGSABSCHLUSS "../../tables/LEGACY_EDW/F_ELISA_AUFTRAGSABSCHLUSS"
+```
+
+## Statements
+
+The following statements create/modify this table:
+
+<Util>MERGE</Util> inside [DWELISAAUFTRAB/snow_auftragsabschlussmeldung_n_edw.sas](../../Applications/DWELISAAUFTRAB/snow_auftragsabschlussmeldung_n_edw.sas):
+```sql:line-numbers
+update PRODUCT_LSP_LEGACY_PROD.LEGACY_EDW.F_ELISA_AUFTRAGSABSCHLUSS ziel
+from PRODUCT_LSP_LEGACY_PROD.LEGACY_STAG.F_ELISA_AUFTRAGSABSCHLUSS quelle
+set
+ma_lag_id = quelle.ma_lag_id
+, LAG_ID = quelle.LAG_ID
+, nan_art_id = quelle.nan_art_id
+, AKT_KZ = quelle.AKT_KZ
+, LIEF_ID = quelle.LIEF_ID
+, MA_ID = quelle.MA_ID
+, BUCHUNGSDATUM = quelle.BUCHUNGSDATUM
+, MHDATUM = quelle.MHDATUM
+, AUFTRAGSABSCHLUSSMELDUNGV2_FULLC = quelle.AUFTRAGSABSCHLUSSMELDUNGV2_FULLC
+, VORGANGSSCHLUESSEL = quelle.VORGANGSSCHLUESSEL
+, MARKTNUMMER_BEREICH = quelle.MARKTNUMMER_BEREICH
+, MARKTNUMMER_REGION = quelle.MARKTNUMMER_REGION
+, MARKTNUMMER_ZAEHLNUMMER = quelle.MARKTNUMMER_ZAEHLNUMMER
+, KOMMISSIONIERLAUFNUMMER = quelle.KOMMISSIONIERLAUFNUMMER
+, KST8AUFTRAGNUMMER = quelle.KST8AUFTRAGNUMMER
+, PLSTOREAUFTRAGSNUMMER = quelle.PLSTOREAUFTRAGSNUMMER
+, LIEFERART = quelle.LIEFERART
+, BUCHUNGSDATUM_DAY = quelle.BUCHUNGSDATUM_DAY
+, BUCHUNGSDATUM_MONTH = quelle.BUCHUNGSDATUM_MONTH
+, BUCHUNGSDATUM_YEAR = quelle.BUCHUNGSDATUM_YEAR
+, BELEGDATUM_DAY = quelle.BELEGDATUM_DAY
+, BELEGDATUM_MONTH = quelle.BELEGDATUM_MONTH
+, BELEGDATUM_YEAR = quelle.BELEGDATUM_YEAR
+, LHMKUERZEL = quelle.LHMKUERZEL
+, LHMARTIKELNUMMER = quelle.LHMARTIKELNUMMER
+, LHM_NAN_ART_ID = quelle.LHM_NAN_ART_ID
+, AUFTRAGSMENGEINSTUECK = quelle.AUFTRAGSMENGEINSTUECK
+, ISTKOMMMENGEINSTUECK = quelle.ISTKOMMMENGEINSTUECK
+, SOLLKOMMMENGEINSTUECK = quelle.SOLLKOMMMENGEINSTUECK
+, MENGEINGRAMM = quelle.MENGEINGRAMM
+, KVGRUND = quelle.KVGRUND
+, MHD_DAY = quelle.MHD_DAY
+, MHD_MONTH = quelle.MHD_MONTH
+, MHD_YEAR = quelle.MHD_YEAR
+, URSPRUNGSLAND = quelle.URSPRUNGSLAND
+, CHARGE = quelle.CHARGE
+, LIEFERANTENNR = quelle.LIEFERANTENNR
+, ZUSATZPOSITION = quelle.ZUSATZPOSITION
+, SCHNITTGEWICHTINGRAMM = quelle.SCHNITTGEWICHTINGRAMM
+, EINKAUFSPREIS = quelle.EINKAUFSPREIS
+, DATEINAME = quelle.DATEINAME
+, LFD_NR_ROHDAT = quelle.LFD_NR_ROHDAT
+, GEBINDEKZ = quelle.GEBINDEKZ
+, FORTLAUFENDENUMMER = quelle.FORTLAUFENDENUMMER
+, GANGNUMMER = quelle.GANGNUMMER
+, PLATZ = quelle.PLATZ
+, FAKTNR = quelle.FAKTNR
+, TEILKOMMID = quelle.TEILKOMMID
+, REFERENZEN = quelle.REFERENZEN
+, BETRIEBE = quelle.BETRIEBE
+, MHD_TYPE = quelle.MHD_TYPE
+, LAND_TYP = quelle.LAND_TYP
+, GRAI = quelle.GRAI
+, FEHLERSCHLUESSEL = quelle.FEHLERSCHLUESSEL
+, RUECKMELDUNGID = QUELLE.RUECKMELDUNGID
+, CHARGEID = QUELLE.CHARGEID
+, STORNO_KENNZ = QUELLE.STORNO_KENNZ
+, REFERENZ_NAN = QUELLE.REFERENZ_NAN
+, REFERENZ_WAEINHEIT = QUELLE.REFERENZ_WAEINHEIT
+, REFERENZ_NAN_ART_ID = QUELLE.REFERENZ_NAN_ART_ID
+, VK_BTO = QUELLE.VK_BTO
+, VK_NTO = QUELLE.VK_NTO
+, VK_BEWERT_KZ = QUELLE.VK_BEWERT_KZ
+, FMGRUND_STORNO = QUELLE.FMGRUND_STORNO
+, PICKNAN = QUELLE.PICKNAN
+, PICKEINHEIT = QUELLE.PICKEINHEIT
+where
+ziel.lagernummer = quelle.lagernummer and
+ziel.belegnummer = quelle.belegnummer and
+ziel.kal_tag_id = quelle.kal_tag_id and
+ziel.wwident_bilanzstelle = quelle.wwident_bilanzstelle and
+ziel.wwident_vertriebsbereich = quelle.wwident_vertriebsbereich and
+ziel.wwident_filialnummer = quelle.wwident_filialnummer and
+ziel.WANVE_ERWEITERUNGSZIFFER = quelle.WANVE_ERWEITERUNGSZIFFER and
+ziel.WANVE_FORTLAUFENDENUMMER = quelle.WANVE_FORTLAUFENDENUMMER and
+ziel.WANVE_GLOBALCOMPANYPREFIX = quelle.WANVE_GLOBALCOMPANYPREFIX and
+ziel.WANVE_PRUEFZIFFER = quelle.WANVE_PRUEFZIFFER and
+ziel.WENVE_ERWEITERUNGSZIFFER = quelle.WENVE_ERWEITERUNGSZIFFER and
+ziel.WENVE_FORTLAUFENDENUMMER = quelle.WENVE_FORTLAUFENDENUMMER and
+ziel.WENVE_GLOBALCOMPANYPREFIX = quelle.WENVE_GLOBALCOMPANYPREFIX and
+ziel.WENVE_PRUEFZIFFER = quelle.WENVE_PRUEFZIFFER and
+ziel.nan = quelle.nan and
+ziel.WAEINHEIT = quelle.WAEINHEIT
 ```
 
 ## References
